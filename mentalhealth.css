@@ -1,0 +1,88 @@
+/* Overall page styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+h1 {
+    color: #4a4a4a;
+    margin-top: 20px;
+    font-size: 2rem;
+}
+
+/* Tooltip styles */
+.tooltip {
+    position: absolute;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 8px;
+    font-size: 14px;
+    display: none;
+    pointer-events: none;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+/* Chart container styles */
+.chart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 30px 0;
+}
+
+.pie-chart-container {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Bar chart styling */
+.bar {
+    fill: plum;
+    transition: fill 0.2s ease;
+    cursor: pointer;
+}
+
+.bar:hover {
+    fill: lightblue;
+}
+
+/* Pie chart styling */
+.arc {
+    transition: fill 0.2s ease;
+    cursor: pointer;
+}
+
+.arc:hover {
+    opacity: 0.8;
+}
+
+/* Pie chart specific styles */
+#pieChart {
+    width: 100%;
+    height: auto;
+    max-width: 400px;
+    margin-top: 20px;
+}
+
+/* Responsive layout for smaller screens */
+@media (max-width: 768px) {
+    svg {
+        width: 100%;
+        height: auto;
+    }
+
+    #pieChart {
+        width: 90%;
+        height: auto;
+    }
+}
