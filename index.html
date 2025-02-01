@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -83,7 +84,9 @@
 
         const chartWidth = 800;
         const chartHeight = 500;
-        const barWidth = chartWidth / data.length - 20;
+
+        // Calculate the total number of individuals for all years combined
+        const totalIndividuals = d3.sum(data, d => d.individuals);
         const maxValue = d3.max(data, d => d.individuals);
 
         // Tooltip Setup
@@ -94,27 +97,24 @@
             .attr("width", chartWidth)
             .attr("height", chartHeight);
 
-        // Create bars for the bar chart
-        svg.selectAll("rect")
-            .data(data)
-            .enter()
-            .append("rect")
-            .attr("x", (d, i) => i * (barWidth + 20) + 20)
-            .attr("y", d => chartHeight - (d.individuals / maxValue) * (chartHeight - 50) - 20)
-            .attr("width", barWidth)
-            .attr("height", d => (d.individuals / maxValue) * (chartHeight - 50))
+        // Create a single bar that represents the total number of individuals
+        svg.append("rect")
+            .attr("x", 20)
+            .attr("y", chartHeight - (totalIndividuals / maxValue) * (chartHeight - 50) - 20)
+            .attr("width", chartWidth - 40)  // The bar will take up most of the width
+            .attr("height", (totalIndividuals / maxValue) * (chartHeight - 50))
             .attr("class", "bar")
-            .on("mouseover", (event, d) => {
+            .on("mouseover", (event) => {
                 tooltip.style("display", "block")
-                    .html(`Year: ${d.year}<br>Individuals: ${d.individuals.toLocaleString()}`)
+                    .html(`Total Individuals: ${totalIndividuals.toLocaleString()}`)
                     .style("left", `${event.pageX + 10}px`)
                     .style("top", `${event.pageY + 10}px`);
             })
             .on("mouseout", () => {
                 tooltip.style("display", "none");
             })
-            .on("click", (event, d) => {
-                window.location.href = `details.html?year=${d.year}&individuals=${d.individuals}`;
+            .on("click", () => {
+                window.location.href = `details.html?individuals=${totalIndividuals}`;
             });
     </script>
 </body>
