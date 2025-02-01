@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Data Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background: plum;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .back-button:hover {
+            background: lightblue;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Mental Health Statistics</h1>
+        <h2 id="year"></h2>
+        <p id="info"></p>
+        <a href="Mental Health.html" class="back-button">Back to Chart</a>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const year = urlParams.get('year');
+
+      
+        const mentalHealthData = {
+            "1990": "In 1990, approximately 350 million people globally were affected by mental health disorders. Mental health awareness was low, leading to stigma and inadequate access to care.",
+            "2001": "By 2001, the number had risen to 450 million. Increased awareness and better diagnostic tools contributed to the rise, but stigma and lack of resources remained key challenges.",
+            "2010": "In 2010, mental health disorders continued to affect 450 million people worldwide. Digital mental health tools started emerging, providing new ways to support those in need.",
+            "2020": "In 2020, around 100 million people were affected by mental health disorders. The COVID-19 pandemic had a major impact, increasing rates of anxiety and depression globally.",
+            "2025": "As of 2025, an estimated 100 million people continue to struggle with mental health issues. Ongoing effects of the pandemic and increased awareness contribute to this figure. The number is expected to grow due to factors like social stressors and economic instability."
+        };
+
+        document.getElementById("year").textContent = `Year: ${year}`;
+        document.getElementById("info").textContent = mentalHealthData[year] || "No additional information available.";
+    </script>
+
+</body>
+</html>
+
+
+
