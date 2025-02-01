@@ -4,48 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mental Health Statistics</title>
+    <title>How Mental Health Was Affected (1990 to 2024)</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-        }
-
-        h1 {
-            color: #4a4a4a;
-            margin-top: 20px;
-            font-size: 2rem;
-        }
-
-        .chart-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        #chart {
-            width: 100%;
-            max-width: 800px;
-            height: 500px;
-        }
-
-        #pieChart {
-            width: 100%;
-            max-width: 400px;
-            height: 400px;
-            margin-top: 50px;
-        }
-
         .bar {
             fill: plum;
-            transition: fill 0.2s ease;
+            transition: fill 0.2s;
             cursor: pointer;
         }
 
@@ -53,136 +17,138 @@
             fill: lightblue;
         }
 
-        .arc {
-            transition: fill 0.2s ease;
-            cursor: pointer;
-        }
-
-        .arc:hover {
-            opacity: 0.8;
-        }
-
         .tooltip {
             position: absolute;
-            background: #f9f9f9;
+            background: lightyellow;
             border: 1px solid #ccc;
-            padding: 8px;
-            font-size: 14px;
+            padding: 5px;
+            font-size: 12px;
             display: none;
             pointer-events: none;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 4px;
+        }
+
+        .chart-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .pie-chart-container {
+            margin-top: 30px;
         }
     </style>
 </head>
 
 <body>
-    <h1>Mental Health Statistics</h1>
+    <h1>How Mental Health Was Affected (1990 to 2024)</h1>
 
-    <!-- Bar Chart Container -->
+    <!-- Bar Chart -->
     <div class="chart-container">
-        <svg id="chart"></svg>
+        <svg id="chart" width="600" height="400"></svg>
     </div>
 
-    <!-- Pie Chart Container -->
-    <div class="chart-container">
-        <svg id="pieChart"></svg>
+    <!-- Pie Chart -->
+    <div class="pie-chart-container">
+        <svg id="pieChart" width="400" height="400"></svg>
     </div>
 
     <div id="tooltip" class="tooltip"></div>
 
-    <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
-        // Data for Mental Health Statistics by Year
+        // Data for the chart
         const data = [
-            { year: 1990, individuals: 350000000 },
-            { year: 2001, individuals: 450000000 },
-            { year: 2010, individuals: 450000000 },
-            { year: 2020, individuals: 1000000000 },
-            { year: 2025, individuals: 1000000000 }
+            { 
+                year: 1990, 
+                individuals: 350000000, 
+                info: "In 1990, an estimated 350 million people worldwide were affected by mental health disorders, including depression, anxiety, and schizophrenia. Mental health awareness was low, leading to stigma and inadequate access to care."
+            },
+            { 
+                year: 2001, 
+                individuals: 450000000, 
+                info: "By 2001, the number had risen to 450 million. Increased awareness and better diagnostic tools contributed to the rise, but stigma and lack of resources remained key challenges."
+            },
+            { 
+                year: 2010, 
+                individuals: 450000000, 
+                info: "In 2010, mental health disorders continued to affect 450 million people worldwide. Digital mental health tools started emerging, providing new ways to support those in need."
+            },
+            { 
+                year: 2020, 
+                individuals: 1000000000, 
+                info: "In 2020, around 1 billion people were affected by mental health disorders. The COVID-19 pandemic had a major impact, increasing rates of anxiety and depression globally."
+            },
+            { 
+                year: 2024, 
+                individuals: 1000000000, 
+                info: "As of 2024, an estimated 1 billion people continue to struggle with mental health issues. Ongoing effects of the pandemic and increased awareness contribute to this figure. The number is expected to grow due to factors like social stressors and economic instability."
+            }
         ];
 
-        const chartWidth = 800;
-        const chartHeight = 500;
-        const pieWidth = 400;
-        const pieHeight = 400;
-        const pieRadius = Math.min(pieWidth, pieHeight) / 2;
-
-        // Calculate the total number of individuals for all years combined
-        const totalIndividuals = d3.sum(data, d => d.individuals);
-        const maxValue = d3.max(data, d => d.individuals);
-
-        // Tooltip Setup
+        const svg = d3.select("#chart");
+        const pieSvg = d3.select("#pieChart");
         const tooltip = d3.select("#tooltip");
+        const width = +svg.attr("width");
+        const height = +svg.attr("height");
+        const radius = Math.min(400, 400) / 2;
 
-        // Create SVG element for the bar chart
-        const svg = d3.select("#chart")
-            .attr("width", chartWidth)
-            .attr("height", chartHeight);
+        // Set up scales for the bar chart
+        const x = d3.scaleBand()
+            .domain(data.map(d => d.year))
+            .range([0, width])
+            .padding(0.1);
 
-        // Create a single bar that represents the total number of individuals
-        svg.append("rect")
-            .attr("x", 20)
-            .attr("y", chartHeight - (totalIndividuals / maxValue) * (chartHeight - 50) - 20)
-            .attr("width", chartWidth - 40)  // The bar will take up most of the width
-            .attr("height", (totalIndividuals / maxValue) * (chartHeight - 50))
+        const y = d3.scaleLinear()
+            .domain([0, d3.max(data, d => d.individuals)])
+            .range([height - 20, 20]);
+
+        // Create Bar Chart
+        svg.selectAll(".bar")
+            .data(data)
+            .enter().append("rect")
             .attr("class", "bar")
-            .on("mouseover", (event) => {
+            .attr("x", d => x(d.year))
+            .attr("y", d => y(d.individuals))
+            .attr("width", x.bandwidth())
+            .attr("height", d => height - y(d.individuals) - 20)
+            .on("mouseover", (event, d) => {
                 tooltip.style("display", "block")
-                    .html(`Total Individuals: ${totalIndividuals.toLocaleString()}`)
-                    .style("left", `${event.pageX + 10}px`)
-                    .style("top", `${event.pageY + 10}px`);
+                    .html(`Year: ${d.year}<br>Individuals: ${d.individuals / 1000000}M`) 
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY + 10) + "px");
             })
-            .on("mouseout", () => {
-                tooltip.style("display", "none");
-            })
-            .on("click", () => {
-                window.location.href = `details.html?individuals=${totalIndividuals}`;
+            .on("mouseout", () => tooltip.style("display", "none"))
+            .on("click", (event, d) => {
+                window.location.href = `details.html?year=${d.year}&info=${encodeURIComponent(d.info)}`;
             });
 
         // Create Pie Chart
-        const pieSvg = d3.select("#pieChart")
-            .attr("width", pieWidth)
-            .attr("height", pieHeight)
-            .append("g")
-            .attr("transform", `translate(${pieWidth / 2}, ${pieHeight / 2})`);
+        const pie = d3.pie().value(d => d.individuals);
+        const arc = d3.arc().outerRadius(radius).innerRadius(0);
 
-        const pie = d3.pie()
-            .value(d => d.individuals)
-            .sort(null);
+        const pieGroup = pieSvg.append("g")
+            .attr("transform", `translate(${400 / 2},${400 / 2})`);
 
-        const arc = d3.arc()
-            .innerRadius(0)
-            .outerRadius(pieRadius);
-
-        const color = d3.scaleOrdinal(d3.schemeCategory10);
-
-        const pieData = pie(data);
-
-        // Draw pie chart arcs
-        pieSvg.selectAll("path")
-            .data(pieData)
-            .enter()
-            .append("path")
+        pieGroup.selectAll(".arc")
+            .data(pie(data))
+            .enter().append("path")
             .attr("class", "arc")
             .attr("d", arc)
-            .attr("fill", (d, i) => color(i))
+            .attr("fill", (d, i) => d3.schemeCategory10[i])
             .on("mouseover", (event, d) => {
                 tooltip.style("display", "block")
-                    .html(`Year: ${d.data.year}<br>Individuals: ${d.data.individuals.toLocaleString()}`)
-                    .style("left", `${event.pageX + 10}px`)
-                    .style("top", `${event.pageY + 10}px`);
+                    .html(`Year: ${d.data.year}<br>Individuals: ${d.data.individuals / 1000000}M`)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY + 10) + "px");
             })
-            .on("mouseout", () => {
-                tooltip.style("display", "none");
-            })
+            .on("mouseout", () => tooltip.style("display", "none"))
             .on("click", (event, d) => {
-                window.location.href = `details.html?year=${d.data.year}&individuals=${d.data.individuals}`;
+                window.location.href = `details.html?year=${d.data.year}&info=${encodeURIComponent(d.data.info)}`;
             });
     </script>
 </body>
-
 </html>
+
 
 
 
