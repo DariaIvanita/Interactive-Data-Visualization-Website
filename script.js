@@ -90,4 +90,3 @@ pieGroup.selectAll(".arc")
     .on("click", (event, d) => {
         window.location.href = `details.html?year=${d.data.year}&info=${encodeURIComponent(d.data.info)}`;
     });
-
