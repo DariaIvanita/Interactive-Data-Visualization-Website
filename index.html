@@ -26,15 +26,14 @@
 
         .chart-container {
             display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            width: 100%;
-            max-width: 1000px;
+            justify-content: center;
             margin-top: 20px;
         }
 
-        .chart {
-            margin: 10px;
+        #chart {
+            width: 100%;
+            max-width: 800px;
+            height: 500px;
         }
 
         .bar {
@@ -58,41 +57,15 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             border-radius: 4px;
         }
-
-        #pieChart {
-            width: 100%;
-            height: auto;
-            max-width: 400px;
-            margin-top: 50px;
-        }
     </style>
 </head>
 
 <body>
     <h1>Mental Health Statistics</h1>
 
+    <!-- Bar Chart Container -->
     <div class="chart-container">
-        <!-- Bar Charts (5 individual charts) -->
-        <div class="chart">
-            <svg id="chart1" width="250" height="500"></svg>
-        </div>
-        <div class="chart">
-            <svg id="chart2" width="250" height="500"></svg>
-        </div>
-        <div class="chart">
-            <svg id="chart3" width="250" height="500"></svg>
-        </div>
-        <div class="chart">
-            <svg id="chart4" width="250" height="500"></svg>
-        </div>
-        <div class="chart">
-            <svg id="chart5" width="250" height="500"></svg>
-        </div>
-    </div>
-
-    <!-- Pie Chart -->
-    <div class="chart-container">
-        <svg id="pieChart" width="400" height="400"></svg>
+        <svg id="chart"></svg>
     </div>
 
     <div id="tooltip" class="tooltip"></div>
@@ -108,7 +81,7 @@
             { year: 2025, individuals: 1000000000 }
         ];
 
-        const chartWidth = 250;
+        const chartWidth = 800;
         const chartHeight = 500;
         const barWidth = chartWidth / data.length - 20;
         const maxValue = d3.max(data, d => d.individuals);
@@ -116,75 +89,24 @@
         // Tooltip Setup
         const tooltip = d3.select("#tooltip");
 
-        // Bar Chart Function
-        function createBarChart(id) {
-            const svg = d3.select(`#${id}`)
-                .attr("width", chartWidth)
-                .attr("height", chartHeight);
+        // Create SVG element for the bar chart
+        const svg = d3.select("#chart")
+            .attr("width", chartWidth)
+            .attr("height", chartHeight);
 
-            svg.selectAll("rect")
-                .data(data)
-                .enter()
-                .append("rect")
-                .attr("x", (d, i) => i * (barWidth + 20) + 20)
-                .attr("y", d => chartHeight - (d.individuals / maxValue) * (chartHeight - 50) - 20)
-                .attr("width", barWidth)
-                .attr("height", d => (d.individuals / maxValue) * (chartHeight - 50))
-                .attr("class", "bar")
-                .on("mouseover", (event, d) => {
-                    tooltip.style("display", "block")
-                        .html(`Year: ${d.year}<br>Individuals: ${d.individuals.toLocaleString()}`)
-                        .style("left", `${event.pageX + 10}px`)
-                        .style("top", `${event.pageY + 10}px`);
-                })
-                .on("mouseout", () => {
-                    tooltip.style("display", "none");
-                })
-                .on("click", (event, d) => {
-                    window.location.href = `details.html?year=${d.year}&individuals=${d.individuals}`;
-                });
-        }
-
-        // Create 5 individual bar charts
-        createBarChart('chart1');
-        createBarChart('chart2');
-        createBarChart('chart3');
-        createBarChart('chart4');
-        createBarChart('chart5');
-
-        // Pie Chart Setup
-        const pieWidth = 400;
-        const pieHeight = 400;
-        const pieRadius = Math.min(pieWidth, pieHeight) / 2;
-
-        const pieSvg = d3.select("#pieChart")
-            .attr("width", pieWidth)
-            .attr("height", pieHeight)
-            .append("g")
-            .attr("transform", `translate(${pieWidth / 2}, ${pieHeight / 2})`);
-
-        const pie = d3.pie()
-            .value(d => d.individuals)
-            .sort(null);
-
-        const arc = d3.arc()
-            .innerRadius(0)
-            .outerRadius(pieRadius);
-
-        const color = d3.scaleOrdinal(d3.schemeCategory10);
-
-        const pieData = pie(data);
-
-        pieSvg.selectAll("path")
-            .data(pieData)
+        // Create bars for the bar chart
+        svg.selectAll("rect")
+            .data(data)
             .enter()
-            .append("path")
-            .attr("class", "arc")
-            .attr("d", arc)
-            .attr("fill", (d, i) => color(i))
+            .append("rect")
+            .attr("x", (d, i) => i * (barWidth + 20) + 20)
+            .attr("y", d => chartHeight - (d.individuals / maxValue) * (chartHeight - 50) - 20)
+            .attr("width", barWidth)
+            .attr("height", d => (d.individuals / maxValue) * (chartHeight - 50))
+            .attr("class", "bar")
             .on("mouseover", (event, d) => {
                 tooltip.style("display", "block")
-                    .html(`Year: ${d.data.year}<br>Individuals: ${d.data.individuals.toLocaleString()}`)
+                    .html(`Year: ${d.year}<br>Individuals: ${d.individuals.toLocaleString()}`)
                     .style("left", `${event.pageX + 10}px`)
                     .style("top", `${event.pageY + 10}px`);
             })
@@ -192,11 +114,12 @@
                 tooltip.style("display", "none");
             })
             .on("click", (event, d) => {
-                window.location.href = `details.html?year=${d.data.year}&individuals=${d.data.individuals}`;
+                window.location.href = `details.html?year=${d.year}&individuals=${d.individuals}`;
             });
     </script>
 </body>
 
 </html>
+
 
 
