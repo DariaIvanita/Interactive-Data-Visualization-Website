@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,6 +49,7 @@
         <h1>Mental Health Statistics</h1>
         <h2 id="year"></h2>
         <p id="info"></p>
+        <!-- Make sure the path here is correct to where your chart or other page is located -->
         <a href="Mental Health.html" class="back-button">Back to Chart</a>
     </div>
 
@@ -55,7 +57,6 @@
         const urlParams = new URLSearchParams(window.location.search);
         const year = urlParams.get('year');
 
-      
         const mentalHealthData = {
             "1990": "In 1990, approximately 350 million people globally were affected by mental health disorders. Mental health awareness was low, leading to stigma and inadequate access to care.",
             "2001": "By 2001, the number had risen to 450 million. Increased awareness and better diagnostic tools contributed to the rise, but stigma and lack of resources remained key challenges.",
