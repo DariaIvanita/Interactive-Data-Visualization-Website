@@ -3,45 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Details - Mental Health Impact</title>
+    <title>Mental Health Information</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1>Detailed Impact of Mental Health Disorders</h1>
-        <p>Explore the detailed impact of mental health across different years.</p>
+        <h1>Mental Health Data (Year: <span id="year"></span>)</h1>
     </header>
 
-    <section class="details">
-        <article id="details-1990" class="detail-item">
-            <h2>1990</h2>
-            <p>In 1990, mental health disorders were still heavily stigmatized, and many individuals with conditions like depression, anxiety, and schizophrenia faced significant barriers to diagnosis and treatment. Globally, mental health disorders affected an estimated 350 million people. However, awareness of mental health challenges was on the rise, and early interventions were beginning to take shape in developed nations, though access to services was limited, particularly in lower-income countries. The mental health sector was struggling to secure adequate funding and public attention.</p>
-        </article>
-
-        <article id="details-2001" class="detail-item">
-            <h2>2001</h2>
-            <p>By 2001, the number of people affected by mental health disorders had increased to around 450 million. Improved diagnostic methods and greater public awareness helped bring mental health into the spotlight. Despite advancements, access to treatment and resources was still inconsistent. Mental health continued to be overshadowed by other health issues in many regions, though there was a growing recognition of the importance of mental health for overall well-being. Mental health professionals began advocating for more government funding, and public policies started evolving to address these challenges.</p>
-        </article>
-
-        <article id="details-2010" class="detail-item">
-            <h2>2010</h2>
-            <p>In 2010, mental health disorders affected around 450 million people globally, and the world was becoming more aware of the impacts of mental health on public health. The rise of online mental health resources began to take hold, and more individuals turned to the internet for self-diagnosis and support. Mental health professionals began to develop more sophisticated treatments for conditions like depression and PTSD. However, many countries were still struggling with adequate mental health funding, and stigma around mental health persisted, especially in developing countries.</p>
-        </article>
-
-        <article id="details-2020" class="detail-item">
-            <h2>2020</h2>
-            <p>The global mental health crisis intensified in 2020 due to the COVID-19 pandemic. An estimated 100 million people were affected by mental health disorders as the pandemic caused widespread anxiety, depression, and stress. The world faced unprecedented disruptions, including lockdowns, isolation, and economic instability. Frontline workers and caregivers experienced heightened stress, leading to burnout and mental health challenges. This period highlighted the critical need for mental health services and led to a shift in both personal and institutional approaches to mental well-being. The use of telemedicine in mental health services became widespread, and there was a growing call for better global mental health infrastructure.</p>
-        </article>
-
-        <article id="details-2025" class="detail-item">
-            <h2>2025</h2>
-            <p>In 2025, mental health remains a pressing global issue, with millions of people worldwide still struggling with mental health disorders. The U.S. reports that one in five adults experience mental health challenges every year, with suicide rates continuing to rise, reflecting deep societal and emotional strain. Mental health support has been integrated into workplaces, with companies moving away from general wellness programs and offering personalized mental health support. Governments and organizations around the world are starting to prioritize mental health, recognizing it as a crucial aspect of public health. Community-led initiatives and campaigns are amplifying the conversation, though the need for long-term, sustainable mental health solutions is as urgent as ever.</p>
-        </article>
+    <section class="info">
+        <p id="details"></p>
     </section>
 
-    <footer>
-        <p>&copy; 2025 Mental Health Awareness Initiative</p>
-    </footer>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const year = urlParams.get('year');
+        const info = decodeURIComponent(urlParams.get('info'));
+
+        document.getElementById("year").textContent = year;
+        document.getElementById("details").textContent = info;
+    </script>
 </body>
 </html>
 
