@@ -2,34 +2,22 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
     text-align: center;
-}
-
-h1 {
-    color: #333;
-    margin-top: 20px;
-    font-size: 2rem;
+    margin: 0;
+    padding: 20px;
 }
 
 /* Tooltip styles */
 .tooltip {
     position: absolute;
-    background: #ffffff;
+    background: white;
     border: 1px solid #ccc;
-    padding: 10px;
+    padding: 8px;
     font-size: 14px;
     display: none;
     pointer-events: none;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
     border-radius: 6px;
-    transition: opacity 0.2s ease-in-out;
 }
 
 /* Chart container styles */
@@ -56,7 +44,7 @@ h1 {
 }
 
 .bar:hover {
-    fill: #87cefa; /* Light blue */
+    fill: lightblue;
 }
 
 /* Pie chart styling */
@@ -69,27 +57,9 @@ h1 {
     opacity: 0.8;
 }
 
-/* Pie chart specific styles */
-#pieChart {
-    width: 100%;
-    height: auto;
-    max-width: 400px;
-    margin-top: 20px;
-}
-
 /* Responsive layout for smaller screens */
 @media (max-width: 768px) {
-    .chart-container {
-        width: 100%;
-        padding: 0 10px;
-    }
-
     svg {
-        width: 100%;
-        height: auto;
-    }
-
-    #pieChart {
         width: 90%;
         height: auto;
     }
@@ -99,3 +69,4 @@ h1 {
         padding: 6px;
     }
 }
+
