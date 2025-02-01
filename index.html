@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,6 +36,13 @@
             height: 500px;
         }
 
+        #pieChart {
+            width: 100%;
+            max-width: 400px;
+            height: 400px;
+            margin-top: 50px;
+        }
+
         .bar {
             fill: plum;
             transition: fill 0.2s ease;
@@ -45,6 +51,15 @@
 
         .bar:hover {
             fill: lightblue;
+        }
+
+        .arc {
+            transition: fill 0.2s ease;
+            cursor: pointer;
+        }
+
+        .arc:hover {
+            opacity: 0.8;
         }
 
         .tooltip {
@@ -69,6 +84,11 @@
         <svg id="chart"></svg>
     </div>
 
+    <!-- Pie Chart Container -->
+    <div class="chart-container">
+        <svg id="pieChart"></svg>
+    </div>
+
     <div id="tooltip" class="tooltip"></div>
 
     <script src="https://d3js.org/d3.v7.min.js"></script>
@@ -84,6 +104,9 @@
 
         const chartWidth = 800;
         const chartHeight = 500;
+        const pieWidth = 400;
+        const pieHeight = 400;
+        const pieRadius = Math.min(pieWidth, pieHeight) / 2;
 
         // Calculate the total number of individuals for all years combined
         const totalIndividuals = d3.sum(data, d => d.individuals);
@@ -116,10 +139,51 @@
             .on("click", () => {
                 window.location.href = `details.html?individuals=${totalIndividuals}`;
             });
+
+        // Create Pie Chart
+        const pieSvg = d3.select("#pieChart")
+            .attr("width", pieWidth)
+            .attr("height", pieHeight)
+            .append("g")
+            .attr("transform", `translate(${pieWidth / 2}, ${pieHeight / 2})`);
+
+        const pie = d3.pie()
+            .value(d => d.individuals)
+            .sort(null);
+
+        const arc = d3.arc()
+            .innerRadius(0)
+            .outerRadius(pieRadius);
+
+        const color = d3.scaleOrdinal(d3.schemeCategory10);
+
+        const pieData = pie(data);
+
+        // Draw pie chart arcs
+        pieSvg.selectAll("path")
+            .data(pieData)
+            .enter()
+            .append("path")
+            .attr("class", "arc")
+            .attr("d", arc)
+            .attr("fill", (d, i) => color(i))
+            .on("mouseover", (event, d) => {
+                tooltip.style("display", "block")
+                    .html(`Year: ${d.data.year}<br>Individuals: ${d.data.individuals.toLocaleString()}`)
+                    .style("left", `${event.pageX + 10}px`)
+                    .style("top", `${event.pageY + 10}px`);
+            })
+            .on("mouseout", () => {
+                tooltip.style("display", "none");
+            })
+            .on("click", (event, d) => {
+                window.location.href = `details.html?year=${d.data.year}&individuals=${d.data.individuals}`;
+            });
     </script>
 </body>
 
 </html>
+
 
 
 
