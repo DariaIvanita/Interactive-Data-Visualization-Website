@@ -3,112 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mental Health Statistics</title>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <title>Mental Health Data Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background: plum;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .back-button:hover {
+            background: lightblue;
+        }
+        canvas {
+            max-width: 100%;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
 
-    <h1>Mental Health Statistics (1990 - 2025)</h1>
-
-    <div class="chart-container">
-        <!-- Bar Chart -->
-        <svg id="barChart" width="600" height="400"></svg>
-
-        <!-- Pie Chart -->
-        <div class="pie-chart-container">
-            <svg id="pieChart" width="400" height="400"></svg>
-        </div>
+    <div class="container">
+        <h1>Mental Health Data Chart</h1>
+        <canvas id="mentalHealthChart"></canvas>
+        <a href="https://username.github.io/repository-name/Mental%20HealthDetails.html" class="back-button">Back to Details</a>
     </div>
 
-    <div id="tooltip" class="tooltip"></div>
-
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Mental Health Data
-            const data = [
-                { year: 1990, individuals: 350000000 },
-                { year: 2001, individuals: 450000000 },
-                { year: 2010, individuals: 450000000 },
-                { year: 2020, individuals: 1000000000 },
-                { year: 2025, individuals: 1000000000 }
-            ];
+        // Data for the chart
+        const labels = ['1990', '2001', '2010', '2020', '2025'];
+        const data = [350, 450, 450, 100, 100]; // Example values
 
-            // BAR CHART SETUP
-            const barWidth = 600, barHeight = 400;
-            const maxValue = d3.max(data, d => d.individuals);
-            
-            const svg = d3.select("#barChart")
-                .attr("width", barWidth)
-                .attr("height", barHeight);
-
-            const xScale = d3.scaleBand()
-                .domain(data.map(d => d.year))
-                .range([50, barWidth - 50])
-                .padding(0.4);
-
-            const yScale = d3.scaleLinear()
-                .domain([0, maxValue])
-                .range([barHeight - 50, 50]);
-
-            // Add Bars
-            svg.selectAll(".bar")
-                .data(data)
-                .enter().append("rect")
-                .attr("class", "bar")
-                .attr("x", d => xScale(d.year))
-                .attr("y", d => yScale(d.individuals))
-                .attr("width", xScale.bandwidth())
-                .attr("height", d => barHeight - 50 - yScale(d.individuals))
-                .on("mouseover", (event, d) => {
-                    d3.select("#tooltip").style("display", "block")
-                        .html(`<strong>Year:</strong> ${d.year}<br><strong>Individuals:</strong> ${d.individuals.toLocaleString()}`)
-                        .style("left", `${event.pageX + 10}px`)
-                        .style("top", `${event.pageY - 20}px`);
-                })
-                .on("mouseout", () => {
-                    d3.select("#tooltip").style("display", "none");
-                })
-                .on("click", (event, d) => {
-                    window.location.href = `details.html?year=${d.year}`;
-                });
-
-            // PIE CHART SETUP
-            const pieWidth = 400, pieHeight = 400, pieRadius = Math.min(pieWidth, pieHeight) / 2;
-            
-            const pieSvg = d3.select("#pieChart")
-                .append("g")
-                .attr("transform", `translate(${pieWidth / 2}, ${pieHeight / 2})`);
-
-            const pie = d3.pie().value(d => d.individuals);
-            const arc = d3.arc().innerRadius(0).outerRadius(pieRadius);
-            const color = d3.scaleOrdinal(d3.schemeCategory10);
-
-            pieSvg.selectAll("path")
-                .data(pie(data))
-                .enter()
-                .append("path")
-                .attr("class", "arc")
-                .attr("d", arc)
-                .attr("fill", (d, i) => color(i))
-                .on("mouseover", (event, d) => {
-                    d3.select("#tooltip").style("display", "block")
-                        .html(`<strong>Year:</strong> ${d.data.year}<br><strong>Individuals:</strong> ${d.data.individuals.toLocaleString()}`)
-                        .style("left", `${event.pageX + 10}px`)
-                        .style("top", `${event.pageY - 20}px`);
-                })
-                .on("mouseout", () => {
-                    d3.select("#tooltip").style("display", "none");
-                })
-                .on("click", (event, d) => {
-                    window.location.href = `details.html?year=${d.data.year}`;
-                });
-
+        const ctx = document.getElementById('mentalHealthChart').getContext('2d');
+        const mentalHealthChart = new Chart(ctx, {
+            type: 'line', // Type of chart (line chart)
+            data: {
+                labels: labels, // X-axis labels (Years)
+                datasets: [{
+                    label: 'Mental Health Affected (millions)',
+                    data: data, // Y-axis values (Number of people affected)
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: { title: { display: true, text: 'Year' } },
+                    y: { title: { display: true, text: 'Affected (millions)' } }
+                }
+            }
         });
     </script>
 
 </body>
 </html>
+
 
 
 
