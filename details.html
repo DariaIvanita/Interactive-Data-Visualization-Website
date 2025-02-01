@@ -3,29 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mental Health Information</title>
+    <title>Year Details</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1>Mental Health Data (Year: <span id="year"></span>)</h1>
+        <h1>Year Details</h1>
     </header>
 
-    <section class="info">
-        <p id="details"></p>
+    <section>
+        <h2 id="yearTitle"></h2>
+        <p id="yearInfo"></p>
+        <a href="index.html">Back to Charts</a>
     </section>
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const year = urlParams.get('year');
-        const info = decodeURIComponent(urlParams.get('info'));
+        const info = urlParams.get('info');
 
-        document.getElementById("year").textContent = year;
-        document.getElementById("details").textContent = info;
+        document.getElementById('yearTitle').textContent = `Year: ${year}`;
+        document.getElementById('yearInfo').textContent = decodeURIComponent(info);
     </script>
 </body>
 </html>
-
-
-
 
