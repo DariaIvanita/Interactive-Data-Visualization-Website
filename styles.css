@@ -1,71 +1,54 @@
-/* Global Styles */
+/* Basic styling for the webpage */
 body {
     font-family: Arial, sans-serif;
-    margin: 20px;
-    padding: 20px;
-    background-color: #f8f9fa;
-    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
 }
 
-.container {
-    max-width: 700px;
-    margin: auto;
-    background: white;
+header {
+    text-align: center;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #4CAF50;
+    color: white;
 }
 
 h1 {
-    color: #333;
+    font-size: 36px;
+    margin: 0;
 }
 
 p {
-    font-size: 18px;
-    line-height: 1.6;
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 20px 0;
+    color: #333;
 }
 
-ul {
-    list-style-type: none;
-    padding: 0;
+.content {
+    padding: 20px;
 }
 
-ul li {
-    margin: 10px 0;
+.charts {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 40px;
 }
 
-a {
-    text-decoration: none;
-    color: #3498db;
-    font-size: 18px;
+.chart-container, .pie-chart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-a:hover {
-    text-decoration: underline;
-}
-
-.back-button {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 10px 15px;
-    background: plum;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: 0.3s;
-}
-
-.back-button:hover {
-    background: lightblue;
-}
-
-/* Chart Placeholder */
-#chart-placeholder {
-    margin-top: 20px;
-    background: #f0f0f0;
-    padding: 50px;
-    font-size: 18px;
-    color: #888;
+.tooltip {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 12px;
+    display: none;
+    pointer-events: none;
 }
 
 
