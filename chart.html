@@ -1,153 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>How Mental Health Was Affected (1990 to 2024)</title>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <style>
-        .bar {
-            fill: plum;
-            transition: fill 0.2s;
-            cursor: pointer;
-        }
-
-        .bar:hover {
-            fill: lightblue;
-        }
-
-        .tooltip {
-            position: absolute;
-            background: lightyellow;
-            border: 1px solid #ccc;
-            padding: 5px;
-            font-size: 12px;
-            display: none;
-            pointer-events: none;
-        }
-
-        .chart-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 20px;
-        }
-
-        .pie-chart-container {
-            margin-top: 30px;
-        }
-
-        .back-button {
-            margin-top: 30px;
-            padding: 10px 15px;
-            background: plum;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
-
-        .back-button:hover {
-            background: lightblue;
-        }
-    </style>
+    <title>Chart - Mental Health Data</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-    <h1>How Mental Health Was Affected (1990 to 2024)</h1>
+    <header>
+        <h1>Mental Health Statistics</h1>
+        <p>Click on the charts to view more detailed information about mental health data over the years.</p>
+    </header>
 
-    <!-- Bar Chart -->
-    <div class="chart-container">
-        <svg id="chart" width="600" height="400"></svg>
-    </div>
+    <section class="charts">
+        <div class="chart-container">
+            <h2>Annual Mental Health Statistics (1990 - 2025)</h2>
+            <svg id="barChart" width="800" height="400"></svg>
+        </div>
 
-    <!-- Pie Chart -->
-    <div class="pie-chart-container">
-        <svg id="pieChart" width="400" height="400"></svg>
-    </div>
+        <div class="pie-chart-container">
+            <h2>Distribution of Affected Population (By Year)</h2>
+            <svg id="pieChart" width="400" height="400"></svg>
+        </div>
+    </section>
 
     <div id="tooltip" class="tooltip"></div>
 
-    <a href="index.html" class="back-button">Back to Chart</a>
-
-    <script>
-        // Data for the chart
-        const data = [
-            { year: 1990, individuals: 350000000, info: "In 1990, an estimated 350 million people worldwide were affected by mental health disorders, including depression, anxiety, and schizophrenia. Mental health awareness was low, leading to stigma and inadequate access to care." },
-            { year: 2001, individuals: 450000000, info: "By 2001, the number had risen to 450 million. Increased awareness and better diagnostic tools contributed to the rise, but stigma and lack of resources remained key challenges." },
-            { year: 2010, individuals: 450000000, info: "In 2010, mental health disorders continued to affect 450 million people worldwide. Digital mental health tools started emerging, providing new ways to support those in need." },
-            { year: 2020, individuals: 100000000, info: "In 2020, around 100 million people were affected by mental health disorders. The COVID-19 pandemic had a major impact, increasing rates of anxiety and depression globally." },
-            { year: 2025, individuals: 100000000, info: "In 2025, mental health continues to be a pressing issue, affecting millions of people around the world. In the U.S., about 1 in 5 adults face mental health challenges every year. Tragically, suicide rates have reached a record high, with more than 49,000 lives lost in 2022 alone. The strain is especially heavy for parents—90% report losing sleep due to the stress of caregiving, 80% have shed tears over it, and nearly 30% have even considered suicide.
-
-To address these challenges, different approaches are being explored. In the U.K., NHS England is prioritizing the reduction of long wait times for mental health services, even if it means revising certain improvement goals. Workplaces are also taking action, moving beyond traditional wellness programs and embracing more personalized strategies to support their employees' mental well-being. At the same time, communities are stepping up—organizations like Momentum Mental Health are hosting events like the Resilience Trek along the Kokoda Trail to raise both awareness and funds for mental health services.
-
-Although much work remains, these efforts signal a turning point—mental health is finally being recognized for the critical issue it is. While more support is becoming available, the need for better resources and lasting solutions remains as urgent as ever." }
-        ];
-
-        const svg = d3.select("#chart");
-        const pieSvg = d3.select("#pieChart");
-        const tooltip = d3.select("#tooltip");
-        const width = +svg.attr("width");
-        const height = +svg.attr("height");
-        const radius = Math.min(400, 400) / 2;
-
-        // Set up scales for the bar chart
-        const x = d3.scaleBand()
-            .domain(data.map(d => d.year))
-            .range([0, width])
-            .padding(0.1);
-
-        const y = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.individuals)])
-            .range([height - 20, 20]);
-
-        // Create Bar Chart
-        svg.selectAll(".bar")
-            .data(data)
-            .enter().append("rect")
-            .attr("class", "bar")
-            .attr("x", d => x(d.year))
-            .attr("y", d => y(d.individuals))
-            .attr("width", x.bandwidth())
-            .attr("height", d => height - y(d.individuals) - 20)
-            .on("mouseover", (event, d) => {
-                tooltip.style("display", "block")
-                    .html(`Year: ${d.year}<br>Individuals: ${d.individuals / 1000000}M`)
-                    .style("left", (event.pageX + 10) + "px")
-                    .style("top", (event.pageY + 10) + "px");
-            })
-            .on("mouseout", () => tooltip.style("display", "none"))
-            .on("click", (event, d) => {
-                window.location.href = `details.html?year=${d.year}&info=${encodeURIComponent(d.info)}`;
-            });
-
-        // Create Pie Chart
-        const pie = d3.pie().value(d => d.individuals);
-        const arc = d3.arc().outerRadius(radius).innerRadius(0);
-
-        const pieGroup = pieSvg.append("g")
-            .attr("transform", `translate(${400 / 2},${400 / 2})`);
-
-        pieGroup.selectAll(".arc")
-            .data(pie(data))
-            .enter().append("path")
-            .attr("class", "arc")
-            .attr("d", arc)
-            .attr("fill", (d, i) => d3.schemeCategory10[i])
-            .on("mouseover", (event, d) => {
-                tooltip.style("display", "block")
-                    .html(`Year: ${d.data.year}<br>Individuals: ${d.data.individuals / 1000000}M`)
-                    .style("left", (event.pageX + 10) + "px")
-                    .style("top", (event.pageY + 10) + "px");
-            })
-            .on("mouseout", () => tooltip.style("display", "none"))
-            .on("click", (event, d) => {
-                window.location.href = `details.html?year=${d.data.year}&info=${encodeURIComponent(d.data.info)}`;
-            });
-    </script>
+    <script src="script.js"></script>
 </body>
-
 </html>
 
 
