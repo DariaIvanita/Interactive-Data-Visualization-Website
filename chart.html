@@ -4,84 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mental Health Data Chart</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 20px;
-            background-color: #f8f9fa;
-            text-align: center;
-        }
-        .container {
-            max-width: 700px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #333;
-        }
-        .back-button {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 15px;
-            background: plum;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
-        .back-button:hover {
-            background: lightblue;
-        }
-        canvas {
-            max-width: 100%;
-            margin-top: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
     <div class="container">
         <h1>Mental Health Data Chart</h1>
-        <canvas id="mentalHealthChart"></canvas>
-        <a href="https://username.github.io/repository-name/Mental%20HealthDetails.html" class="back-button">Back to Details</a>
+        <p>Graphical representation of mental health statistics over the years.</p>
+        <!-- Placeholder for your chart -->
+        <div id="chart-placeholder">
+            <p>[Insert your chart here]</p>
+        </div>
+        <!-- Link to go back to the main page or chart section -->
+        <a href="index.html" class="back-button">Back to Main Page</a>
     </div>
-
-    <script>
-        // Data for the chart
-        const labels = ['1990', '2001', '2010', '2020', '2025'];
-        const data = [350, 450, 450, 100, 100]; // Example values
-
-        const ctx = document.getElementById('mentalHealthChart').getContext('2d');
-        const mentalHealthChart = new Chart(ctx, {
-            type: 'line', // Type of chart (line chart)
-            data: {
-                labels: labels, // X-axis labels (Years)
-                datasets: [{
-                    label: 'Mental Health Affected (millions)',
-                    data: data, // Y-axis values (Number of people affected)
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    fill: true,
-                    tension: 0.4
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    x: { title: { display: true, text: 'Year' } },
-                    y: { title: { display: true, text: 'Affected (millions)' } }
-                }
-            }
-        });
-    </script>
-
+    <script src="script.js"></script>
 </body>
 </html>
+
+
 
 
 
