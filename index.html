@@ -3,24 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mental Health Chart</title>
+    <title>Mental Health Statistics</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Mental Health Data Chart</h1>
-        <p>Select a year to see detailed information:</p>
-        
-        <!-- Links to details page with year parameters -->
-        <ul>
-            <li><a href="details.html?year=1990">1990</a></li>
-            <li><a href="details.html?year=2001">2001</a></li>
-            <li><a href="details.html?year=2010">2010</a></li>
-            <li><a href="details.html?year=2020">2020</a></li>
-            <li><a href="details.html?year=2025">2025</a></li>
-        </ul>
+    <h1>Mental Health Statistics</h1>
+
+    <!-- Tooltip for bar and pie chart hover effects -->
+    <div id="tooltip" class="tooltip"></div>
+
+    <!-- Bar Chart Container -->
+    <div id="chart-container" class="chart-container">
+        <svg id="chart"></svg>
     </div>
+
+    <!-- Pie Chart Container -->
+    <div id="pie-chart-container" class="pie-chart-container">
+        <svg id="pieChart"></svg>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
+
 
