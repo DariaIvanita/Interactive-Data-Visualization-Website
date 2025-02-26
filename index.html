@@ -3,164 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mental Health Data Visualization</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Mental Health Data Details</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 50px;
-            background-color: #f5f5f5;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            text-align: center;
         }
-        canvas {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s ease;
-        }
-        #modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            justify-content: center;
-            align-items: center;
-            color: white;
-        }
-        #modalContent {
-            background-color: #333;
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: white;
             padding: 20px;
             border-radius: 10px;
-            width: 60%;
-            text-align: center;
-            max-height: 80%;
-            overflow-y: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        #closeModal, #backToChart {
-            background-color: rgb(245, 101, 154);
-            padding: 10px;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-top: 10px;
+        h1 {
+            color: #333;
         }
-        .toggleButtons {
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            text-align: justify;
+        }
+        .back-button {
+            display: inline-block;
             margin-top: 20px;
-        }
-        .toggleButtons button {
-            margin: 5px;
-            padding: 10px;
-            background-color: #007bff;
+            padding: 10px 15px;
+            background: plum;
             color: white;
-            border: none;
+            text-decoration: none;
             border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: 0.3s;
         }
-        .toggleButtons button:hover {
-            background-color: #9200b3;
+        .back-button:hover {
+            background: lightblue;
         }
     </style>
 </head>
 <body>
 
-    <h1>Mental Health Data Over Time</h1>
-    <canvas id="mentalHealthChart" width="600" height="300"></canvas>
-    <canvas id="pieChart" width="600" height="300"></canvas>
-
-    <!-- Modal for Details -->
-    <div id="modal">
-        <div id="modalContent">
-            <h2 id="modalTitle">Category Details</h2>
-            <p id="modalText">Detailed mental health data will be shown here.</p>
-            <button id="closeModal">Close</button>
-            <button id="backToChart">Back to Chart</button>
-        </div>
-    </div>
-
-    <!-- Toggle Buttons -->
-    <div class="toggleButtons">
-        <button id="maleData">Show Male Data</button>
-        <button id="femaleData">Show Female Data</button>
-        <button id="nonBinaryData">Show Non-binary Data</button>
-        <button id="allData">Show All Data</button>
+    <div class="container">
+        <h1>Mental Health Statistics</h1>
+        <h2 id="year"></h2>
+        <p id="info"></p>
+        <a href="index-mental.html" class="back-button">Back to Chart</a>
     </div>
 
     <script>
-        const ctx = document.getElementById('mentalHealthChart').getContext('2d');
-        const pieCtx = document.getElementById('pieChart').getContext('2d');
+        const urlParams = new URLSearchParams(window.location.search);
+        const year = urlParams.get('year');
 
-        // Bar Chart Data
-        const data = {
-            labels: ['1990', '2001', '2010', '2020', '2025'],
-            datasets: [
-                { label: 'Male', data: [15, 18, 22, 25, 30], backgroundColor: 'rgba(54, 162, 235, 0.5)', borderColor: 'rgba(54, 162, 235, 1)', borderWidth: 1 },
-                { label: 'Female', data: [20, 25, 30, 35, 40], backgroundColor: 'rgba(255, 99, 132, 0.5)', borderColor: 'rgba(255, 99, 132, 1)', borderWidth: 1 },
-                { label: 'Non-binary', data: [5, 7, 8, 12, 15], backgroundColor: 'rgba(75, 192, 192, 0.5)', borderColor: 'rgba(75, 192, 192, 1)', borderWidth: 1 }
-            ]
+        const mentalHealthData = {
+            "1990": "In 1990, approximately 350 million people worldwide were affected by mental health disorders, including depression, anxiety, and schizophrenia. Mental health was highly stigmatized, and access to care was extremely limited, especially in low-income countries. Many nations lacked proper mental health policies, leading to inadequate treatment options. The World Health Organization (WHO) and global researchers began pushing for greater awareness and policy changes to address these issues.",
+            
+            "2001": "By 2001, the number of people affected by mental health disorders had risen to 450 million. Advances in psychiatry and increased public awareness led to improved diagnosis rates, though stigma and financial constraints still prevented many from receiving treatment. The World Health Report 2001 emphasized mental health as a global priority, encouraging nations to integrate mental health care into their public health systems. Despite this, mental health funding remained low, and many communities still lacked adequate mental health services.",
+
+            "2010": "In 2010, mental health remained a major global challenge, with around 450 million people affected. The rise of digital mental health tools, such as online therapy platforms and mental wellness apps, provided new ways for people to access support. However, access to mental health care was still unequal, particularly in developing nations where services were scarce. Suicide prevention campaigns and discussions around work-life balance became more prominent in mental health discourse. Governments and organizations began implementing workplace mental health programs, aiming to address stress and burnout.",
+
+            "2020": "By 2020, the global number of individuals affected by mental health disorders exceeded 1 billion, marking a dramatic increase. The COVID-19 pandemic had a profound impact on mental health worldwide, leading to sharp increases in anxiety, depression, and stress-related disorders. Lockdowns, social isolation, and economic uncertainty contributed to deteriorating mental well-being. Governments and organizations expanded online therapy options, crisis helplines, and mental health hotlines to address the crisis. Many companies adopted remote work policies to help employees manage stress and mental fatigue.",
+
+            "2025": "As of 2025, an estimated 1.2 billion people worldwide are living with mental health disorders. The long-term effects of the pandemic, economic stressors, social pressures, and increased awareness have contributed to this figure. Advances in artificial intelligence (AI) and virtual reality (VR) have revolutionized mental health therapy, making treatment more personalized and accessible. Many countries have also implemented stronger mental health policies, increasing funding for psychiatric care and reducing barriers to treatment. Despite progress, the global mental health crisis remains significant, requiring continued research, policy development, and stigma reduction efforts."
         };
 
-        const mentalHealthChart = new Chart(ctx, {
-            type: 'bar',
-            data: data,
-            options: {
-                onClick: (event, elements) => {
-                    if (elements.length > 0) {
-                        const chartElement = elements[0];
-                        const year = mentalHealthChart.data.labels[chartElement.index];
-                        showModal(year);
-                    }
-                },
-                responsive: true
-            }
-        });
-
-        // Pie Chart Data
-        const pieData = {
-            labels: ['Male', 'Female', 'Non-binary'],
-            datasets: [{ data: [15, 25, 7], backgroundColor: ['#36A2EB', '#FF6384', '#4BC0C0'], borderColor: ['#36A2EB', '#FF6384', '#4BC0C0'], borderWidth: 1 }]
-        };
-
-        const pieChart = new Chart(pieCtx, {
-            type: 'pie',
-            data: pieData,
-            options: { responsive: true }
-        });
-
-        // Function to Update Pie Chart
-        function updatePieChart(category) {
-            let categoryData = category === 'All' ? [15, 25, 7] : category === 'Male' ? [15, 0, 0] : category === 'Female' ? [0, 25, 0] : [0, 0, 7];
-            pieChart.data.datasets[0].data = categoryData;
-            pieChart.update();
-        }
-
-        // Toggle Buttons
-        document.getElementById('maleData').onclick = () => { updatePieChart('Male'); };
-        document.getElementById('femaleData').onclick = () => { updatePieChart('Female'); };
-        document.getElementById('nonBinaryData').onclick = () => { updatePieChart('Non-binary'); };
-        document.getElementById('allData').onclick = () => { updatePieChart('All'); };
-
-        // Function to Show Modal with Details
-        function showModal(year) {
-            let details = `In ${year}, mental health disorders affected millions globally. Common issues included depression, anxiety, and schizophrenia. Access to treatment varied widely, with stigma and healthcare limitations preventing many from receiving necessary care.`;
-            document.getElementById('modalTitle').textContent = `Mental Health Data for ${year}`;
-            document.getElementById('modalText').textContent = details;
-            document.getElementById('modal').style.display = 'flex';
-        }
-
-        // Close Modal
-        document.getElementById('closeModal').onclick = () => { document.getElementById('modal').style.display = 'none'; };
-
-        // Back to Chart Button
-        document.getElementById('backToChart').onclick = () => {
-            document.getElementById('modal').style.display = 'none';
-            window.location.href = "index.html"; // Ensure this points to your main chart page
-        };
+        document.getElementById("year").textContent = `Year: ${year}`;
+        document.getElementById("info").textContent = mentalHealthData[year] || "No additional information available.";
     </script>
 
 </body>
