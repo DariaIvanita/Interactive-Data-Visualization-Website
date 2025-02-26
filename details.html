@@ -12,29 +12,41 @@
 
         <div id="year1990" class="year-details">
             <h2>Year 1990</h2>
-            <p>In 1990, approximately 350 million people worldwide were affected by mental health disorders, including depression, anxiety, and schizophrenia. Mental health was highly stigmatized, and access to care was extremely limited, especially in low-income countries. Many nations lacked proper mental health policies, leading to inadequate treatment options. The World Health Organization (WHO) and global researchers began pushing for greater awareness and policy changes to address these issues.</p>
+            <p>In 1990, mental health was gaining more media coverage, and significant policy shifts began in many countries to address mental health as a serious societal issue. However, mental health disorders were still stigmatized in many areas of the world, and the mental health workforce was often inadequate.</p>
         </div>
 
         <div id="year2001" class="year-details">
             <h2>Year 2001</h2>
-            <p>By 2001, the number of people affected by mental health disorders had risen to 450 million. Advances in psychiatry and increased public awareness led to improved diagnosis rates, though stigma and financial constraints still prevented many from receiving treatment. The World Health Report 2001 emphasized mental health as a global priority, encouraging nations to integrate mental health care into their public health systems. Despite this, mental health funding remained low, and many communities still lacked adequate mental health services.</p>
+            <p>During this year, mental health was discussed more openly in some parts of the world, and the global conversation about mental health issues began to expand. However, despite progress, there were still many gaps in treatment access and stigma persisted.</p>
         </div>
 
         <div id="year2010" class="year-details">
             <h2>Year 2010</h2>
-            <p>In 2010, mental health remained a major global challenge, with around 450 million people affected. The rise of digital mental health tools, such as online therapy platforms and mental wellness apps, provided new ways for people to access support. However, access to mental health care was still unequal, particularly in developing nations where services were scarce. Suicide prevention campaigns and discussions around work-life balance became more prominent in mental health discourse. Governments and organizations began implementing workplace mental health programs, aiming to address stress and burnout.</p>
+            <p>By 2010, mental health awareness had significantly increased due to social media campaigns and documentaries, but mental health services remained inaccessible in many regions, and mental health issues were still poorly funded in many places.</p>
         </div>
 
         <div id="year2020" class="year-details">
             <h2>Year 2020</h2>
-            <p>By 2020, the global number of individuals affected by mental health disorders exceeded 1 billion, marking a dramatic increase. The COVID-19 pandemic had a profound impact on mental health worldwide, leading to sharp increases in anxiety, depression, and stress-related disorders. Lockdowns, social isolation, and economic uncertainty contributed to deteriorating mental well-being. Governments and organizations expanded online therapy options, crisis helplines, and mental health hotlines to address the crisis. Many companies adopted remote work policies to help employees manage stress and mental fatigue.</p>
+            <p>The year 2020 saw a sharp increase in mental health issues globally, particularly due to the COVID-19 pandemic. Lockdowns, social isolation, and economic uncertainty led to an overwhelming number of cases of depression, anxiety, and post-traumatic stress disorder. Telehealth options expanded as people sought treatment online. Mental health became a central topic in both public health discussions and workplace policies, signaling a shift toward more integrated mental health support systems.</p>
         </div>
 
         <div id="year2025" class="year-details">
             <h2>Year 2025</h2>
-            <p>As of 2025, an estimated 1.2 billion people worldwide are living with mental health disorders. The long-term effects of the pandemic, economic stressors, social pressures, and increased awareness have contributed to this figure. Advances in artificial intelligence (AI) and virtual reality (VR) have revolutionized mental health therapy, making treatment more personalized and accessible. Many countries have also implemented stronger mental health policies, increasing funding for psychiatric care and reducing barriers to treatment. Despite progress, the global mental health crisis remains significant, requiring continued research, policy development, and stigma reduction efforts.</p>
+            <p>By 2025, mental health was likely to have an increased level of awareness across the globe, with an emphasis on preventive care, access to therapy, and the integration of mental health services within primary care settings. More countries would have enacted comprehensive mental health policies, with the potential to reduce the stigma surrounding mental illness.</p>
         </div>
     </div>
+
+    <script>
+        // Get the year parameter from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const year = urlParams.get('year');
+        
+        // Show the relevant year details
+        if (year) {
+            document.querySelector(`#year${year}`).style.display = 'block';
+        }
+    </script>
 </body>
 </html>
+
 
