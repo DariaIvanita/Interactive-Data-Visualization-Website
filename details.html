@@ -4,44 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mental Health Data Details</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 20px;
-            background-color: #f8f9fa;
-            text-align: center;
-        }
-        .container {
-            max-width: 700px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #333;
-        }
-        p {
-            font-size: 18px;
-            line-height: 1.6;
-            text-align: justify;
-        }
-        .back-button {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 15px;
-            background: plum;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
-        .back-button:hover {
-            background: lightblue;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -49,30 +12,13 @@
         <h1>Mental Health Statistics</h1>
         <h2 id="year"></h2>
         <p id="info"></p>
-        <a href="index-mental.html" class="back-button">Back to Chart</a>
+        <a href="index.html" class="back-button">Back to Chart</a>
     </div>
 
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const year = urlParams.get('year');
-
-        const mentalHealthData = {
-            "1990": "In 1990, approximately 350 million people worldwide were affected by mental health disorders, including depression, anxiety, and schizophrenia. Mental health was highly stigmatized, and access to care was extremely limited, especially in low-income countries. Many nations lacked proper mental health policies, leading to inadequate treatment options. The World Health Organization (WHO) and global researchers began pushing for greater awareness and policy changes to address these issues.",
-            
-            "2001": "By 2001, the number of people affected by mental health disorders had risen to 450 million. Advances in psychiatry and increased public awareness led to improved diagnosis rates, though stigma and financial constraints still prevented many from receiving treatment. The World Health Report 2001 emphasized mental health as a global priority, encouraging nations to integrate mental health care into their public health systems. Despite this, mental health funding remained low, and many communities still lacked adequate mental health services.",
-
-            "2010": "In 2010, mental health remained a major global challenge, with around 450 million people affected. The rise of digital mental health tools, such as online therapy platforms and mental wellness apps, provided new ways for people to access support. However, access to mental health care was still unequal, particularly in developing nations where services were scarce. Suicide prevention campaigns and discussions around work-life balance became more prominent in mental health discourse. Governments and organizations began implementing workplace mental health programs, aiming to address stress and burnout.",
-
-            "2020": "By 2020, the global number of individuals affected by mental health disorders exceeded 1 billion, marking a dramatic increase. The COVID-19 pandemic had a profound impact on mental health worldwide, leading to sharp increases in anxiety, depression, and stress-related disorders. Lockdowns, social isolation, and economic uncertainty contributed to deteriorating mental well-being. Governments and organizations expanded online therapy options, crisis helplines, and mental health hotlines to address the crisis. Many companies adopted remote work policies to help employees manage stress and mental fatigue.",
-
-            "2025": "As of 2025, an estimated 1.2 billion people worldwide are living with mental health disorders. The long-term effects of the pandemic, economic stressors, social pressures, and increased awareness have contributed to this figure. Advances in artificial intelligence (AI) and virtual reality (VR) have revolutionized mental health therapy, making treatment more personalized and accessible. Many countries have also implemented stronger mental health policies, increasing funding for psychiatric care and reducing barriers to treatment. Despite progress, the global mental health crisis remains significant, requiring continued research, policy development, and stigma reduction efforts."
-        };
-
-        document.getElementById("year").textContent = `Year: ${year}`;
-        document.getElementById("info").textContent = mentalHealthData[year] || "No additional information available.";
-    </script>
+    <script src="details-script.js"></script>
 
 </body>
 </html>
+
 
 
