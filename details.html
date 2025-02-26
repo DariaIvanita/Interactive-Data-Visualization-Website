@@ -3,33 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mental Health Trends - Interactive Charts</title>
+    <title>Mental Health History - Details</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>Mental Health Trends: 1990 to 2025</h1>
-        <div class="chart-container">
-            <!-- Bar Chart -->
-            <canvas id="mentalHealthChart"></canvas>
+        <h1>Mental Health History: 1990 to 2025</h1>
+
+        <div id="year1990" class="year-details">
+            <h2>Year 1990</h2>
+            <p>In 1990, approximately 350 million people worldwide were affected by mental health disorders, including depression, anxiety, and schizophrenia. Mental health was highly stigmatized, and access to care was extremely limited, especially in low-income countries. Many nations lacked proper mental health policies, leading to inadequate treatment options. The World Health Organization (WHO) and global researchers began pushing for greater awareness and policy changes to address these issues.</p>
         </div>
-        <div class="chart-container">
-            <!-- Pie Chart -->
-            <canvas id="mentalHealthPieChart"></canvas>
+
+        <div id="year2001" class="year-details">
+            <h2>Year 2001</h2>
+            <p>By 2001, the number of people affected by mental health disorders had risen to 450 million. Advances in psychiatry and increased public awareness led to improved diagnosis rates, though stigma and financial constraints still prevented many from receiving treatment. The World Health Report 2001 emphasized mental health as a global priority, encouraging nations to integrate mental health care into their public health systems. Despite this, mental health funding remained low, and many communities still lacked adequate mental health services.</p>
+        </div>
+
+        <div id="year2010" class="year-details">
+            <h2>Year 2010</h2>
+            <p>In 2010, mental health remained a major global challenge, with around 450 million people affected. The rise of digital mental health tools, such as online therapy platforms and mental wellness apps, provided new ways for people to access support. However, access to mental health care was still unequal, particularly in developing nations where services were scarce. Suicide prevention campaigns and discussions around work-life balance became more prominent in mental health discourse. Governments and organizations began implementing workplace mental health programs, aiming to address stress and burnout.</p>
+        </div>
+
+        <div id="year2020" class="year-details">
+            <h2>Year 2020</h2>
+            <p>By 2020, the global number of individuals affected by mental health disorders exceeded 1 billion, marking a dramatic increase. The COVID-19 pandemic had a profound impact on mental health worldwide, leading to sharp increases in anxiety, depression, and stress-related disorders. Lockdowns, social isolation, and economic uncertainty contributed to deteriorating mental well-being. Governments and organizations expanded online therapy options, crisis helplines, and mental health hotlines to address the crisis. Many companies adopted remote work policies to help employees manage stress and mental fatigue.</p>
+        </div>
+
+        <div id="year2025" class="year-details">
+            <h2>Year 2025</h2>
+            <p>As of 2025, an estimated 1.2 billion people worldwide are living with mental health disorders. The long-term effects of the pandemic, economic stressors, social pressures, and increased awareness have contributed to this figure. Advances in artificial intelligence (AI) and virtual reality (VR) have revolutionized mental health therapy, making treatment more personalized and accessible. Many countries have also implemented stronger mental health policies, increasing funding for psychiatric care and reducing barriers to treatment. Despite progress, the global mental health crisis remains significant, requiring continued research, policy development, and stigma reduction efforts.</p>
         </div>
     </div>
-
-    <!-- Modal for details -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span id="closeModal" class="close-btn">&times;</span>
-            <h2 id="modalTitle"></h2>
-            <p id="modalText"></p>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
 </body>
 </html>
 
