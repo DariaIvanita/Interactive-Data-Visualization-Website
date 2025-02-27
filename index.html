@@ -244,23 +244,30 @@
             } else if (year === '2020') {
                 details = 'By 2020, the global number of individuals affected by mental health disorders exceeded 1 billion, marking a dramatic increase. The COVID-19 pandemic had a profound impact on mental health worldwide, leading to sharp increases in anxiety, depression, and stress-related disorders. Lockdowns, social isolation, and economic uncertainty contributed to deteriorating mental well-being. Governments and organizations expanded online therapy options, crisis helplines, and mental health hotlines to address the crisis. Many companies adopted remote work policies to help employees manage stress and mental fatigue.';
             } else if (year === '2025') {
-                details = 'As of 2025, an estimated 1.2 billion people worldwide are living with mental health disorders. The long-term effects of the pandemic, economic stressors, social pressures, and increased awareness have contributed to this figure. Advances in artificial intelligence (AI) and virtual reality (VR) have revolutionized mental health therapy, making treatment more personalized and accessible. Many countries have also implemented stronger mental health policies, increasing funding for psychiatric care and reducing barriers to treatment. Despite progress, the global mental health crisis remains significant, requiring continued research, policy development, and stigma reduction efforts.';
+                details = 'By 2025, the global mental health crisis has been a central issue in international public health. With continued growth in mental health challenges, organizations are emphasizing prevention strategies, including improved access to mental health care, stress management techniques, and workplace mental health programs. The global conversation around mental health has evolved, with policymakers, companies, and community organizations all working to break down stigmas and promote mental well-being as an essential part of life. Advances in AI and virtual mental health therapy are also playing an increasingly important role.';
             }
 
-            // Update modal content
-            document.getElementById('modalText').textContent = details;
-            document.getElementById('modalTitle').textContent = `Details for Year ${year}`;
-            document.getElementById('modal').style.display = 'flex';
+            document.getElementById('modalText').innerText = details;
+            document.getElementById('modal').style.display = 'flex'; // Show the modal
         }
 
-        // Close the modal
+        // Close modal functionality
         document.getElementById('closeModal').onclick = () => {
             document.getElementById('modal').style.display = 'none';
         };
+
+        // Add mouseover effect to canvas
+        document.getElementById('mentalHealthChart').addEventListener('mouseover', () => {
+            document.getElementById('mentalHealthChart').style.transform = 'scale(1.05)';
+        });
+        document.getElementById('mentalHealthChart').addEventListener('mouseout', () => {
+            document.getElementById('mentalHealthChart').style.transform = 'scale(1)';
+        });
     </script>
 
 </body>
 </html>
+
 
 
 
