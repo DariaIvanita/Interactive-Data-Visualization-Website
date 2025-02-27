@@ -82,7 +82,7 @@
         </div>
     </div>
 
-    <!-- Toggle Buttons -->
+    <!-- Toggle Buttons to Dynamically Show Data -->
     <div class="toggleButtons">
         <button id="maleData">Show Male Data</button>
         <button id="femaleData">Show Female Data</button>
@@ -94,8 +94,9 @@
         const ctx = document.getElementById('mentalHealthChart').getContext('2d');
         const pieCtx = document.getElementById('pieChart').getContext('2d');
 
+        // Initial data for the bar chart
         const data = {
-            labels: ['1990', '2001', '2010', '2020', '2025'],
+            labels: ['1990', '2001', '2010', '2020', '2025'], // Time periods
             datasets: [
                 {
                     label: 'Male',
@@ -132,7 +133,19 @@
                     if (elements.length > 0) {
                         const chartElement = elements[0];
                         const year = mentalHealthChart.data.labels[chartElement.index];
-                        window.location.href = `details.html?year=${year}`;
+
+                        // Show modal with year-specific details
+                        const yearDetails = {
+                            '1990': 'In 1990, approximately 350 million people were affected by mental health disorders. Stigma was high, and access to care was very limited.',
+                            '2001': 'By 2001, the number had risen to 450 million. Mental health became a global priority, but funding remained low.',
+                            '2010': 'In 2010, mental health tools like online therapy became more common, but access was still unequal worldwide.',
+                            '2020': 'By 2020, mental health cases exceeded 1 billion due to the COVID-19 pandemic, leading to an increase in anxiety and depression.',
+                            '2025': 'In 2025, around 1.2 billion people are affected. AI and VR are transforming mental health care, but challenges remain.'
+                        };
+
+                        document.getElementById('modalTitle').textContent = `Mental Health Data for ${year}`;
+                        document.getElementById('modalText').textContent = yearDetails[year];
+                        document.getElementById('modal').style.display = 'flex';
                     }
                 },
                 animation: {
@@ -148,6 +161,7 @@
             }
         });
 
+        // Pie chart data
         const pieData = {
             labels: ['Male', 'Female', 'Non-binary'],
             datasets: [{
@@ -161,61 +175,8 @@
         const pieChart = new Chart(pieCtx, {
             type: 'pie',
             data: pieData,
-            options: {
-                responsive: true,
-                animation: {
-                    duration: 1000,
-                    easing: 'easeOutBounce'
-                }
-            }
+            options: { responsive: true }
         });
-
-        function updatePieChart(category) {
-            let categoryData = [0, 0, 0];
-
-            if (category === 'Male') categoryData = [15, 0, 0];
-            else if (category === 'Female') categoryData = [0, 25, 0];
-            else if (category === 'Non-binary') categoryData = [0, 0, 7];
-            else if (category === 'All') categoryData = [15, 25, 7];
-
-            pieChart.data.datasets[0].data = categoryData;
-            pieChart.update();
-        }
-
-        document.getElementById('maleData').onclick = () => {
-            updateChartData('Male');
-            updatePieChart('Male');
-        };
-        document.getElementById('femaleData').onclick = () => {
-            updateChartData('Female');
-            updatePieChart('Female');
-        };
-        document.getElementById('nonBinaryData').onclick = () => {
-            updateChartData('Non-binary');
-            updatePieChart('Non-binary');
-        };
-        document.getElementById('allData').onclick = () => {
-            updateChartData('All');
-            updatePieChart('All');
-        };
-
-        function updateChartData(category) {
-            mentalHealthChart.data.datasets.forEach(dataset => {
-                dataset.hidden = category !== 'All' && dataset.label !== category;
-            });
-            mentalHealthChart.update();
-        }
-
-        function showModal(category) {
-            let details = '';
-            if (category === 'Male') details = 'Mental health concerns for males have increased steadily from 1990 to 2025.';
-            else if (category === 'Female') details = 'Females have seen a higher rate of increase in mental health issues.';
-            else if (category === 'Non-binary') details = 'Non-binary individuals have experienced growing awareness of mental health challenges.';
-
-            document.getElementById('modalText').textContent = details;
-            document.getElementById('modalTitle').textContent = `Details for ${category}`;
-            document.getElementById('modal').style.display = 'flex';
-        }
 
         document.getElementById('closeModal').onclick = () => {
             document.getElementById('modal').style.display = 'none';
