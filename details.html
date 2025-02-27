@@ -37,11 +37,11 @@
     </div>
 
     <script>
-        // Get the year parameter from the URL
+        
         const urlParams = new URLSearchParams(window.location.search);
         const year = urlParams.get('year');
         
-        // Show the relevant year details
+     
         if (year) {
             document.querySelector(`#year${year}`).style.display = 'block';
         }
