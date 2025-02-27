@@ -42,8 +42,7 @@ const mentalHealthChart = new Chart(ctx, {
             if (elements.length > 0) {
                 const chartElement = elements[0];
                 const year = mentalHealthChart.data.labels[chartElement.index];
-                // Redirect to the details page with the year parameter
-                window.location.href = `details.html?year=${year}`;
+                showMentalHealthDetails(year); // Show details based on the clicked year
             }
         },
         tooltips: {
@@ -109,56 +108,63 @@ function updatePieChart(category) {
     pieChart.update();
 }
 
-// Toggle Buttons: Show different data on the chart
-document.getElementById('maleData').onclick = () => {
-    updateChartData('Male');
-    updatePieChart('Male');
-};
-document.getElementById('femaleData').onclick = () => {
-    updateChartData('Female');
-    updatePieChart('Female');
-};
-document.getElementById('nonBinaryData').onclick = () => {
-    updateChartData('Non-binary');
-    updatePieChart('Non-binary');
-};
-document.getElementById('allData').onclick = () => {
-    updateChartData('All');
-    updatePieChart('All');
-};
+// Function to show mental health details based on year clicked
+function showMentalHealthDetails(year) {
+    let maleData = 0;
+    let femaleData = 0;
+    let nonBinaryData = 0;
+    let yearInfo = "";
 
-// Function to dynamically update bar chart data
-function updateChartData(category) {
-    if (category === 'All') {
-        mentalHealthChart.data.datasets.forEach(dataset => {
-            dataset.hidden = false; // Show all datasets
-        });
-    } else {
-        mentalHealthChart.data.datasets.forEach(dataset => {
-            dataset.hidden = dataset.label !== category; // Show only selected category
-        });
+    // Assign data based on the selected year
+    switch (year) {
+        case '1990':
+            maleData = 15;
+            femaleData = 20;
+            nonBinaryData = 5;
+            yearInfo = 'In 1990, mental health concerns for males, females, and non-binary individuals were at their early stages of significant recognition.';
+            break;
+        case '2001':
+            maleData = 18;
+            femaleData = 25;
+            nonBinaryData = 7;
+            yearInfo = 'By 2001, awareness of mental health issues had begun to rise, with males and females experiencing noticeable increases.';
+            break;
+        case '2010':
+            maleData = 22;
+            femaleData = 30;
+            nonBinaryData = 8;
+            yearInfo = 'In 2010, mental health was more widely discussed, and both male and female populations saw notable increases in reported cases.';
+            break;
+        case '2020':
+            maleData = 25;
+            femaleData = 35;
+            nonBinaryData = 12;
+            yearInfo = 'By 2020, mental health issues were recognized as critical across all demographics, with females experiencing the highest rates of anxiety and depression.';
+            break;
+        case '2025':
+            maleData = 30;
+            femaleData = 40;
+            nonBinaryData = 15;
+            yearInfo = 'In 2025, ongoing efforts to address mental health issues saw significant data showing increased attention towards the non-binary community.';
+            break;
+        default:
+            yearInfo = 'No data available for this year.';
+            break;
     }
-    mentalHealthChart.update(); // Update the bar chart with the new data
-}
 
-// Function to show modal with category details
-function showModal(category) {
-    let details = '';
-    if (category === 'Male') {
-        details = 'Mental health concerns for males have increased steadily from 1990 to 2025, with significant growth seen in recent years.';
-    } else if (category === 'Female') {
-        details = 'Females have seen a higher rate of increase in mental health issues, particularly depression and anxiety, over the past three decades.';
-    } else if (category === 'Non-binary') {
-        details = 'Non-binary individuals have experienced a growing awareness of mental health challenges, especially among younger generations.';
-    }
-
-    // Update modal content
-    document.getElementById('modalText').textContent = details;
-    document.getElementById('modalTitle').textContent = `Details for ${category}`;
+    // Display modal with year-specific details
+    document.getElementById('modalYear').textContent = `Mental Health Trends in ${year}`;
+    document.getElementById('modalText').textContent = `
+        Year: ${year}
+        Male: ${maleData}%
+        Female: ${femaleData}%
+        Non-binary: ${nonBinaryData}%
+        \n\n${yearInfo}
+    `;
     document.getElementById('modal').style.display = 'flex';
 }
 
-// Close the modal
+// Close the modal when the close button is clicked
 document.getElementById('closeModal').onclick = () => {
     document.getElementById('modal').style.display = 'none';
 };
