@@ -1,9 +1,8 @@
 const ctx = document.getElementById('mentalHealthChart').getContext('2d');
 const pieCtx = document.getElementById('pieChart').getContext('2d');
 
-// Initial data for the bar chart
 const data = {
-    labels: ['1990', '2001', '2010', '2020', '2025'], // Time periods
+    labels: ['1990', '2001', '2010', '2020', '2025'],
     datasets: [
         {
             label: 'Male',
@@ -40,7 +39,7 @@ const mentalHealthChart = new Chart(ctx, {
             if (elements.length > 0) {
                 const chartElement = elements[0];
                 const year = mentalHealthChart.data.labels[chartElement.index];
-                showMentalHealthInfo(year);  // Call function to show info based on the year clicked
+                showMentalHealthInfo(year);
             }
         },
         tooltips: {
@@ -53,7 +52,7 @@ const mentalHealthChart = new Chart(ctx, {
             }
         },
         animation: {
-            duration: 1000, // Adding smooth animation for transitions
+            duration: 1000,
             easing: 'easeOutBounce'
         },
         scales: {
@@ -65,11 +64,10 @@ const mentalHealthChart = new Chart(ctx, {
     }
 });
 
-// Pie chart data
 const pieData = {
     labels: ['Male', 'Female', 'Non-binary'],
     datasets: [{
-        data: [15, 25, 7], // Initial data for pie chart
+        data: [15, 25, 7],
         backgroundColor: ['rgba(54, 162, 235, 0.5)', 'rgba(255, 99, 132, 0.5)', 'rgba(75, 192, 192, 0.5)'],
         borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)', 'rgba(75, 192, 192, 1)'],
         borderWidth: 1
@@ -82,15 +80,14 @@ const pieChart = new Chart(pieCtx, {
     options: {
         responsive: true,
         animation: {
-            duration: 1000, // Smooth animation for pie chart
+            duration: 1000,
             easing: 'easeOutBounce'
         }
     }
 });
 
-// Function to update pie chart based on the selected data
 function updatePieChart(category) {
-    let categoryData = [0, 0, 0]; // Male, Female, Non-binary counts
+    let categoryData = [0, 0, 0];
 
     if (category === 'Male') {
         categoryData = [15, 0, 0];
@@ -99,14 +96,13 @@ function updatePieChart(category) {
     } else if (category === 'Non-binary') {
         categoryData = [0, 0, 7];
     } else if (category === 'All') {
-        categoryData = [15, 25, 7]; // All data
+        categoryData = [15, 25, 7];
     }
 
     pieChart.data.datasets[0].data = categoryData;
     pieChart.update();
 }
 
-// Toggle Buttons: Show different data on the chart
 document.getElementById('maleData').onclick = () => {
     updateChartData('Male');
     updatePieChart('Male');
@@ -124,50 +120,46 @@ document.getElementById('allData').onclick = () => {
     updatePieChart('All');
 };
 
-// Function to dynamically update bar chart data
 function updateChartData(category) {
     if (category === 'All') {
         mentalHealthChart.data.datasets.forEach(dataset => {
-            dataset.hidden = false; // Show all datasets
+            dataset.hidden = false;
         });
     } else {
         mentalHealthChart.data.datasets.forEach(dataset => {
-            dataset.hidden = dataset.label !== category; // Show only selected category
+            dataset.hidden = dataset.label !== category;
         });
     }
-    mentalHealthChart.update(); // Update the bar chart with the new data
+    mentalHealthChart.update();
 }
 
-// Function to show modal with mental health details based on the year clicked
 function showMentalHealthInfo(year) {
     let details = '';
     switch (year) {
         case '1990':
-            details = 'In 1990, mental health concerns were less recognized, with limited data on the long-term impact on different demographics.';
+            details = 'In 1990, approximately 350 million people worldwide were affected by mental health disorders, including depression, anxiety, and schizophrenia. Mental health was highly stigmatized, and access to care was extremely limited, especially in low-income countries. Many nations lacked proper mental health policies, leading to inadequate treatment options. The World Health Organization (WHO) and global researchers began pushing for greater awareness and policy changes to address these issues.';
             break;
         case '2001':
-            details = 'By 2001, mental health awareness began increasing, but resources were still lacking in many areas.';
+            details = 'By 2001, the number of people affected by mental health disorders had risen to 450 million. Advances in psychiatry and increased public awareness led to improved diagnosis rates, though stigma and financial constraints still prevented many from receiving treatment. The World Health Report 2001 emphasized mental health as a global priority, encouraging nations to integrate mental health care into their public health systems. Despite this, mental health funding remained low, and many communities still lacked adequate mental health services.';
             break;
         case '2010':
-            details = 'In 2010, the conversation around mental health became more mainstream, particularly focusing on youth and young adults.';
+            details = 'In 2010, mental health remained a major global challenge, with around 450 million people affected. The rise of digital mental health tools, such as online therapy platforms and mental wellness apps, provided new ways for people to access support. However, access to mental health care was still unequal, particularly in developing nations where services were scarce. Suicide prevention campaigns and discussions around work-life balance became more prominent in mental health discourse. Governments and organizations began implementing workplace mental health programs, aiming to address stress and burnout.';
             break;
         case '2020':
-            details = 'By 2020, mental health issues such as anxiety and depression had become prominent, with a global increase in mental health conditions.';
+            details = 'By 2020, the global number of individuals affected by mental health disorders exceeded 1 billion, marking a dramatic increase. The COVID-19 pandemic had a profound impact on mental health worldwide, leading to sharp increases in anxiety, depression, and stress-related disorders. Lockdowns, social isolation, and economic uncertainty contributed to deteriorating mental well-being. Governments and organizations expanded online therapy options, crisis helplines, and mental health hotlines to address the crisis. Many companies adopted remote work policies to help employees manage stress and mental fatigue.';
             break;
         case '2025':
-            details = 'In 2025, mental health support is more widespread, with a focus on accessibility and support for underserved communities.';
+            details = 'As of 2025, an estimated 1.2 billion people worldwide are living with mental health disorders. The long-term effects of the pandemic, economic stressors, social pressures, and increased awareness have contributed to this figure. Advances in artificial intelligence (AI) and virtual reality (VR) have revolutionized mental health therapy, making treatment more personalized and accessible. Many countries have also implemented stronger mental health policies, increasing funding for psychiatric care and reducing barriers to treatment. Despite progress, the global mental health crisis remains significant, requiring continued research, policy development, and stigma reduction efforts.';
             break;
         default:
             details = 'No data available for this year.';
     }
 
-    // Display details for the clicked year
     const modalText = document.getElementById('modalText');
     modalText.textContent = details;
     document.getElementById('modal').style.display = 'flex';
 }
 
-// Close the modal
 document.getElementById('closeModal').onclick = () => {
     document.getElementById('modal').style.display = 'none';
 };
