@@ -36,7 +36,7 @@ h1 {
 #femaleData { background-color: red; color: white; }
 #nonBinaryData { background-color: teal; color: white; }
 
-/* Modal Styles */
+
 .modal {
     display: none;
     position: fixed;
