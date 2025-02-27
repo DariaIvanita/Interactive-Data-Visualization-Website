@@ -3,260 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Highly Interactive Mental Health Chart</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 50px;
-            background-color: #f5f5f5;
-        }
-        canvas {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s ease;
-        }
-        #modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            justify-content: center;
-            align-items: center;
-            color: white;
-        }
-        #modalContent {
-            background-color: #333;
-            padding: 20px;
-            border-radius: 10px;
-            width: 60%;
-            text-align: center;
-            max-height: 80%;
-            overflow-y: auto;
-        }
-        #closeModal {
-            background-color: rgb(245, 101, 154);
-            padding: 10px;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-top: 10px;
-        }
-        .toggleButtons {
-            margin-top: 20px;
-        }
-        .toggleButtons button {
-            margin: 5px;
-            padding: 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .toggleButtons button:hover {
-            background-color: #9200b3;
-        }
-    </style>
+    <title>Mental Health Data Visualization</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="container">
+        <h1>Mental Health Trends Over Time</h1>
+        <canvas id="mentalHealthChart" width="400" height="200"></canvas>
+        <canvas id="pieChart" width="200" height="200"></canvas>
 
-    <h1>Mental Health Data</h1>
-    <canvas id="mentalHealthChart" width="600" height="300"></canvas>
-    <canvas id="pieChart" width="600" height="300"></canvas>
-
-    <!-- Modal for Details -->
-    <div id="modal">
-        <div id="modalContent">
-            <h2 id="modalTitle">Category Details</h2>
-            <p id="modalText">Detailed mental health data will be shown here.</p>
-            <button id="closeModal">Close</button>
+        <!-- Modal for displaying detailed mental health info -->
+        <div id="modal" style="display:none;">
+            <div class="modal-content">
+                <h2 id="modalYear"></h2>
+                <p id="modalText"></p>
+                <button id="closeModal">Close</button>
+            </div>
         </div>
     </div>
-
-    <!-- Toggle Buttons to Dynamically Show Data -->
-    <div class="toggleButtons">
-        <button id="maleData">Show Male Data</button>
-        <button id="femaleData">Show Female Data</button>
-        <button id="nonBinaryData">Show Non-binary Data</button>
-        <button id="allData">Show All Data</button>
-    </div>
-
-    <script>
-        const ctx = document.getElementById('mentalHealthChart').getContext('2d');
-        const pieCtx = document.getElementById('pieChart').getContext('2d');
-
-        // Initial data for the bar chart
-        const data = {
-            labels: ['1990', '2001', '2010', '2020', '2025'], // Time periods
-            datasets: [
-                {
-                    label: 'Male',
-                    data: [15, 18, 22, 25, 30],
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1,
-                    hidden: false
-                },
-                {
-                    label: 'Female',
-                    data: [20, 25, 30, 35, 40],
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 1,
-                    hidden: false
-                },
-                {
-                    label: 'Non-binary',
-                    data: [5, 7, 8, 12, 15],
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1,
-                    hidden: false
-                }
-            ]
-        };
-
-        const mentalHealthChart = new Chart(ctx, {
-            type: 'bar',
-            data: data,
-            options: {
-                onClick: (event, elements) => {
-                    if (elements.length > 0) {
-                        const chartElement = elements[0];
-                        const year = mentalHealthChart.data.labels[chartElement.index];
-                        // Redirect to the details page with the year parameter
-                        window.location.href = `details.html?year=${year}`;
-                    }
-                },
-                tooltips: {
-                    callbacks: {
-                        label: (tooltipItem) => {
-                            const datasetLabel = tooltipItem.dataset.label;
-                            const value = tooltipItem.raw;
-                            return `${datasetLabel}: ${value} % (Year: ${tooltipItem.label})`;
-                        }
-                    }
-                },
-                animation: {
-                    duration: 1000, // Adding smooth animation for transitions
-                    easing: 'easeOutBounce'
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                },
-                responsive: true
-            }
-        });
-
-        // Pie chart data
-        const pieData = {
-            labels: ['Male', 'Female', 'Non-binary'],
-            datasets: [{
-                data: [15, 25, 7], // Initial data for pie chart
-                backgroundColor: ['rgba(54, 162, 235, 0.5)', 'rgba(255, 99, 132, 0.5)', 'rgba(75, 192, 192, 0.5)'],
-                borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)', 'rgba(75, 192, 192, 1)'],
-                borderWidth: 1
-            }]
-        };
-
-        const pieChart = new Chart(pieCtx, {
-            type: 'pie',
-            data: pieData,
-            options: {
-                responsive: true,
-                animation: {
-                    duration: 1000, // Smooth animation for pie chart
-                    easing: 'easeOutBounce'
-                }
-            }
-        });
-
-        // Function to update pie chart based on the selected data
-        function updatePieChart(category) {
-            let categoryData = [0, 0, 0]; // Male, Female, Non-binary counts
-
-            if (category === 'Male') {
-                categoryData = [15, 0, 0];
-            } else if (category === 'Female') {
-                categoryData = [0, 25, 0];
-            } else if (category === 'Non-binary') {
-                categoryData = [0, 0, 7];
-            } else if (category === 'All') {
-                categoryData = [15, 25, 7]; // All data
-            }
-
-            pieChart.data.datasets[0].data = categoryData;
-            pieChart.update();
-        }
-
-        // Toggle Buttons: Show different data on the chart
-        document.getElementById('maleData').onclick = () => {
-            updateChartData('Male');
-            updatePieChart('Male');
-        };
-        document.getElementById('femaleData').onclick = () => {
-            updateChartData('Female');
-            updatePieChart('Female');
-        };
-        document.getElementById('nonBinaryData').onclick = () => {
-            updateChartData('Non-binary');
-            updatePieChart('Non-binary');
-        };
-        document.getElementById('allData').onclick = () => {
-            updateChartData('All');
-            updatePieChart('All');
-        };
-
-        // Function to dynamically update bar chart data
-        function updateChartData(category) {
-            if (category === 'All') {
-                mentalHealthChart.data.datasets.forEach(dataset => {
-                    dataset.hidden = false; // Show all datasets
-                });
-            } else {
-                mentalHealthChart.data.datasets.forEach(dataset => {
-                    dataset.hidden = dataset.label !== category; // Show only selected category
-                });
-            }
-            mentalHealthChart.update(); // Update the bar chart with the new data
-        }
-
-        // Function to show modal with category details
-        function showModal(category) {
-            let details = '';
-            if (category === 'Male') {
-                details = 'Mental health concerns for males have increased steadily from 1990 to 2025, with significant growth seen in recent years.';
-            } else if (category === 'Female') {
-                details = 'Females have seen a higher rate of increase in mental health issues, particularly depression and anxiety, over the past three decades.';
-            } else if (category === 'Non-binary') {
-                details = 'Non-binary individuals have experienced a growing awareness of mental health challenges, especially among younger generations.';
-            }
-
-            // Update modal content
-            document.getElementById('modalText').textContent = details;
-            document.getElementById('modalTitle').textContent = `Details for ${category}`;
-            document.getElementById('modal').style.display = 'flex';
-        }
-
-        // Close the modal
-        document.getElementById('closeModal').onclick = () => {
-            document.getElementById('modal').style.display = 'none';
-        };
-    </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
+
 
 
 
