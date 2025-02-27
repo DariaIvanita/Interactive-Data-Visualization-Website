@@ -148,11 +148,24 @@
                 },
                 animation: {
                     duration: 1000, // Adding smooth animation for transitions
-                    easing: 'easeOutBounce'
+                    easing: 'easeOutBounce',
+                    onProgress: function(animation) {
+                        const chartInstance = animation.chart;
+                        const ctx = chartInstance.ctx;
+                        const chartArea = chartInstance.chartArea;
+
+                        ctx.save();
+                        ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+                        ctx.fillRect(chartArea.left, chartArea.top, chartArea.right - chartArea.left, chartArea.bottom - chartArea.top);
+                        ctx.restore();
+                    }
                 },
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: {
+                            beginAtZero: true
+                        }
                     }
                 },
                 responsive: true
@@ -267,6 +280,7 @@
 
 </body>
 </html>
+
 
 
 
