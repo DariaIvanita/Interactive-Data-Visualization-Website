@@ -3,39 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Data Visualization</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Highly Interactive Mental Health Chart</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 50px;
+            background-color: #f5f5f5;
+        }
+        canvas {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+        #modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+        #modalContent {
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            width: 60%;
+            text-align: center;
+            max-height: 80%;
+            overflow-y: auto;
+        }
+        #closeModal {
+            background-color: rgb(245, 101, 154);
+            padding: 10px;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .toggleButtons {
+            margin-top: 20px;
+        }
+        .toggleButtons button {
+            margin: 5px;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .toggleButtons button:hover {
+            background-color: #9200b3;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Mental Health Trends (1990 - 2025)</h1>
-        
-        <div class="chart-container">
-            <canvas id="mentalHealthChart"></canvas>
-        </div>
 
-        <div class="chart-container">
-            <canvas id="pieChart"></canvas>
-        </div>
+    <h1>Mental Health Data</h1>
+    <canvas id="mentalHealthChart" width="600" height="300"></canvas>
+    <canvas id="pieChart" width="600" height="300"></canvas>
 
-        <div class="filters">
-            <button id="allData">All</button>
-            <button id="maleData">Male</button>
-            <button id="femaleData">Female</button>
-            <button id="nonBinaryData">Non-Binary</button>
+    <!-- Modal for Details -->
+    <div id="modal">
+        <div id="modalContent">
+            <h2 id="modalTitle">Category Details</h2>
+            <p id="modalText">Detailed mental health data will be shown here.</p>
+            <button id="closeModal">Close</button>
         </div>
     </div>
 
-    <!-- Modal for detailed mental health info -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span id="closeModal" class="close">&times;</span>
-            <p id="modalText"></p>
-        </div>
+    <!-- Toggle Buttons -->
+    <div class="toggleButtons">
+        <button id="maleData">Show Male Data</button>
+        <button id="femaleData">Show Female Data</button>
+        <button id="nonBinaryData">Show Non-binary Data</button>
+        <button id="allData">Show All Data</button>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        const ctx = document.getElementById('mentalHealthChart').getContext('2d');
+        const pieCtx = document.getElementById('pieChart').getContext('2d');
+
+        const data = {
+            labels: ['1990', '2001', '2010', '2020', '2025'],
+            datasets: [
+                {
+                    label: 'Male',
+                    data: [15, 18, 22, 25, 30],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1,
+                    hidden: false
+                },
+                {
+                    label: 'Female',
+                    data: [20, 25, 30, 35, 40],
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1,
+                    hidden: false
+                },
+                {
+                    label: 'Non-binary',
+                    data: [5, 7, 8, 12, 15],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    hidden: false
+                }
+            ]
+        };
+
+        const mentalHealthChart = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: {
+                onClick: (event, elements) => {
+                    if (elements.length > 0) {
+                        const chartElement = elements[0];
+                        const year = mentalHealthChart.data.labels[chartElement.index];
+                        window.location.href = `details.html?year=${year}`;
+                    }
+                },
+                animation: {
+                    duration: 1000,
+                    easing: 'easeOutBounce'
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                responsive: true
+            }
+        });
+
+        const pieData = {
+            labels: ['Male', 'Female', 'Non-binary'],
+            datasets: [{
+                data: [15, 25, 7],
+                backgroundColor: ['rgba(54, 162, 235, 0.5)', 'rgba(255, 99, 132, 0.5)', 'rgba(75, 192, 192, 0.5)'],
+                borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)', 'rgba(75, 192, 192, 1)'],
+                borderWidth: 1
+            }]
+        };
+
+        const pieChart = new Chart(pieCtx, {
+            type: 'pie',
+            data: pieData,
+            options: {
+                responsive: true,
+                animation: {
+                    duration: 1000,
+                    easing: 'easeOutBounce'
+                }
+            }
+        });
+
+        function updatePieChart(category) {
+            let categoryData = [0, 0, 0];
+
+            if (category === 'Male') categoryData = [15, 0, 0];
+            else if (category === 'Female') categoryData = [0, 25, 0];
+            else if (category === 'Non-binary') categoryData = [0, 0, 7];
+            else if (category === 'All') categoryData = [15, 25, 7];
+
+            pieChart.data.datasets[0].data = categoryData;
+            pieChart.update();
+        }
+
+        document.getElementById('maleData').onclick = () => {
+            updateChartData('Male');
+            updatePieChart('Male');
+        };
+        document.getElementById('femaleData').onclick = () => {
+            updateChartData('Female');
+            updatePieChart('Female');
+        };
+        document.getElementById('nonBinaryData').onclick = () => {
+            updateChartData('Non-binary');
+            updatePieChart('Non-binary');
+        };
+        document.getElementById('allData').onclick = () => {
+            updateChartData('All');
+            updatePieChart('All');
+        };
+
+        function updateChartData(category) {
+            mentalHealthChart.data.datasets.forEach(dataset => {
+                dataset.hidden = category !== 'All' && dataset.label !== category;
+            });
+            mentalHealthChart.update();
+        }
+
+        function showModal(category) {
+            let details = '';
+            if (category === 'Male') details = 'Mental health concerns for males have increased steadily from 1990 to 2025.';
+            else if (category === 'Female') details = 'Females have seen a higher rate of increase in mental health issues.';
+            else if (category === 'Non-binary') details = 'Non-binary individuals have experienced growing awareness of mental health challenges.';
+
+            document.getElementById('modalText').textContent = details;
+            document.getElementById('modalTitle').textContent = `Details for ${category}`;
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        document.getElementById('closeModal').onclick = () => {
+            document.getElementById('modal').style.display = 'none';
+        };
+    </script>
+
 </body>
 </html>
 
