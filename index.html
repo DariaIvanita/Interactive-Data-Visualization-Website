@@ -3,35 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Highly Interactive Mental Health Chart</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Interactive Data Visualization</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <h1>Mental Health Data</h1>
-    <canvas id="mentalHealthChart" width="600" height="300"></canvas>
-    <canvas id="pieChart" width="600" height="300"></canvas>
+    <div class="container">
+        <h1>Mental Health Trends (1990 - 2025)</h1>
+        
+        <div class="chart-container">
+            <canvas id="mentalHealthChart"></canvas>
+        </div>
 
-    <!-- Modal for Details -->
-    <div id="modal" style="display:none;">
-        <div id="modalContent">
-            <h2 id="modalTitle">Category Details</h2>
-            <p id="modalText">Detailed mental health data will be shown here.</p>
-            <button id="closeModal">Close</button>
+        <div class="chart-container">
+            <canvas id="pieChart"></canvas>
+        </div>
+
+        <div class="filters">
+            <button id="allData">All</button>
+            <button id="maleData">Male</button>
+            <button id="femaleData">Female</button>
+            <button id="nonBinaryData">Non-Binary</button>
         </div>
     </div>
 
-    <!-- Toggle Buttons to Dynamically Show Data -->
-    <div class="toggleButtons">
-        <button id="maleData">Show Male Data</button>
-        <button id="femaleData">Show Female Data</button>
-        <button id="nonBinaryData">Show Non-binary Data</button>
-        <button id="allData">Show All Data</button>
+    <!-- Modal for detailed mental health info -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span id="closeModal" class="close">&times;</span>
+            <p id="modalText"></p>
+        </div>
     </div>
 
     <script src="script.js"></script>
 </body>
 </html>
+
 
 
 
