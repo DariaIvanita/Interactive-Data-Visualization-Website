@@ -94,7 +94,7 @@
         const ctx = document.getElementById('mentalHealthChart').getContext('2d');
         const pieCtx = document.getElementById('pieChart').getContext('2d');
 
-        // Initial data for the bar chart
+  
         const data = {
             labels: ['1990', '2001', '2010', '2020', '2025'], // Time periods
             datasets: [
@@ -172,7 +172,7 @@
             }
         });
 
-        // Pie chart data
+       
         const pieData = {
             labels: ['Male', 'Female', 'Non-binary'],
             datasets: [{
@@ -195,7 +195,7 @@
             }
         });
 
-        // Function to update pie chart based on the selected data
+        
         function updatePieChart(category) {
             let categoryData = [0, 0, 0]; // Male, Female, Non-binary counts
 
@@ -213,7 +213,7 @@
             pieChart.update();
         }
 
-        // Toggle Buttons: Show different data on the chart
+       
         document.getElementById('maleData').onclick = () => {
             updateChartData('Male');
             updatePieChart('Male');
@@ -231,7 +231,7 @@
             updatePieChart('All');
         };
 
-        // Function to dynamically update bar chart data
+        
         function updateChartData(category) {
             if (category === 'All') {
                 mentalHealthChart.data.datasets.forEach(dataset => {
@@ -245,7 +245,7 @@
             mentalHealthChart.update(); // Update the bar chart with the new data
         }
 
-        // Function to show modal with category details
+        
         function showModal(year) {
             let details = '';
             if (year === '1990') {
@@ -264,12 +264,12 @@
             document.getElementById('modal').style.display = 'flex'; // Show the modal
         }
 
-        // Close modal functionality
+       
         document.getElementById('closeModal').onclick = () => {
             document.getElementById('modal').style.display = 'none';
         };
 
-        // Add mouseover effect to canvas
+      
         document.getElementById('mentalHealthChart').addEventListener('mouseover', () => {
             document.getElementById('mentalHealthChart').style.transform = 'scale(1.05)';
         });
