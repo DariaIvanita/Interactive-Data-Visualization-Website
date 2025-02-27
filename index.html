@@ -3,33 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mental Health Data Visualization</title>
+    <title>Highly Interactive Mental Health Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Mental Health Trends Over Time</h1>
-        <canvas id="mentalHealthChart" width="400" height="200"></canvas>
-        <canvas id="pieChart" width="200" height="200"></canvas>
+    <h1>Mental Health Data</h1>
+    <canvas id="mentalHealthChart" width="600" height="300"></canvas>
+    <canvas id="pieChart" width="600" height="300"></canvas>
 
-        <!-- Male, Female, Non-binary, and All charts buttons, but no boxes -->
-        <div class="legend">
-            <button onclick="updatePieChart('Male')">Male</button>
-            <button onclick="updatePieChart('Female')">Female</button>
-            <button onclick="updatePieChart('Non-binary')">Non-binary</button>
-            <button onclick="updatePieChart('All')">All</button>
-        </div>
-
-        <!-- Modal for displaying detailed mental health info -->
-        <div id="modal" style="display:none;">
-            <div class="modal-content">
-                <h2 id="modalYear"></h2>
-                <p id="modalText"></p>
-                <button id="closeModal">Close</button>
-            </div>
+    <!-- Modal for Details -->
+    <div id="modal" style="display:none;">
+        <div id="modalContent">
+            <h2 id="modalTitle">Category Details</h2>
+            <p id="modalText">Detailed mental health data will be shown here.</p>
+            <button id="closeModal">Close</button>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Toggle Buttons to Dynamically Show Data -->
+    <div class="toggleButtons">
+        <button id="maleData">Show Male Data</button>
+        <button id="femaleData">Show Female Data</button>
+        <button id="nonBinaryData">Show Non-binary Data</button>
+        <button id="allData">Show All Data</button>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
