@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Highly Interactive Mental Health Chart</title>
+    <title>Interactive Mental Health Chart</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
@@ -49,78 +49,57 @@
             border-radius: 5px;
             margin-top: 10px;
         }
-        .toggleButtons {
-            margin-top: 20px;
-        }
-        .toggleButtons button {
-            margin: 5px;
-            padding: 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .toggleButtons button:hover {
-            background-color: #9200b3;
-        }
     </style>
 </head>
 <body>
 
     <h1>Mental Health Data</h1>
     <canvas id="mentalHealthChart" width="600" height="300"></canvas>
-    <canvas id="pieChart" width="600" height="300"></canvas>
 
     <!-- Modal for Details -->
     <div id="modal">
         <div id="modalContent">
-            <h2 id="modalTitle">Category Details</h2>
+            <h2 id="modalTitle">Mental Health Data</h2>
             <p id="modalText">Detailed mental health data will be shown here.</p>
             <button id="closeModal">Close</button>
         </div>
     </div>
 
-    <!-- Toggle Buttons to Dynamically Show Data -->
-    <div class="toggleButtons">
-        <button id="maleData">Show Male Data</button>
-        <button id="femaleData">Show Female Data</button>
-        <button id="nonBinaryData">Show Non-binary Data</button>
-        <button id="allData">Show All Data</button>
-    </div>
-
     <script>
         const ctx = document.getElementById('mentalHealthChart').getContext('2d');
-        const pieCtx = document.getElementById('pieChart').getContext('2d');
 
-        // Initial data for the bar chart
+        // Mental health data details for each year
+        const mentalHealthDetails = {
+            '1990': "In 1990, about 350 million people worldwide were affected by mental health disorders.",
+            '2001': "By 2001, the number had risen to 450 million due to growing global awareness and challenges.",
+            '2010': "In 2010, around 450 million people were affected, with depression being a leading cause of disability.",
+            '2020': "By 2020, over 1 billion people were affected, especially with COVID-19 worsening mental health conditions.",
+            '2025': "As of 2025, an estimated 1.2 billion people worldwide are living with mental health disorders."
+        };
+
         const data = {
-            labels: ['1990', '2001', '2010', '2020', '2025'], // Time periods
+            labels: ['1990', '2001', '2010', '2020', '2025'],
             datasets: [
                 {
                     label: 'Male',
                     data: [15, 18, 22, 25, 30],
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
                     borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1,
-                    hidden: false
+                    borderWidth: 1
                 },
                 {
                     label: 'Female',
                     data: [20, 25, 30, 35, 40],
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
                     borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 1,
-                    hidden: false
+                    borderWidth: 1
                 },
                 {
                     label: 'Non-binary',
                     data: [5, 7, 8, 12, 15],
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.5)',
                     borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1,
-                    hidden: false
+                    borderWidth: 1
                 }
             ]
         };
@@ -133,50 +112,21 @@
                     if (elements.length > 0) {
                         const chartElement = elements[0];
                         const year = mentalHealthChart.data.labels[chartElement.index];
-
-                        // Show modal with year-specific details
-                        const yearDetails = {
-                            '1990': 'In 1990, approximately 350 million people were affected by mental health disorders. Stigma was high, and access to care was very limited.',
-                            '2001': 'By 2001, the number had risen to 450 million. Mental health became a global priority, but funding remained low.',
-                            '2010': 'In 2010, mental health tools like online therapy became more common, but access was still unequal worldwide.',
-                            '2020': 'By 2020, mental health cases exceeded 1 billion due to the COVID-19 pandemic, leading to an increase in anxiety and depression.',
-                            '2025': 'In 2025, around 1.2 billion people are affected. AI and VR are transforming mental health care, but challenges remain.'
-                        };
-
-                        document.getElementById('modalTitle').textContent = `Mental Health Data for ${year}`;
-                        document.getElementById('modalText').textContent = yearDetails[year];
-                        document.getElementById('modal').style.display = 'flex';
+                        showModal(year);
                     }
-                },
-                animation: {
-                    duration: 1000,
-                    easing: 'easeOutBounce'
                 },
                 scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+                    y: { beginAtZero: true }
                 },
                 responsive: true
             }
         });
 
-        // Pie chart data
-        const pieData = {
-            labels: ['Male', 'Female', 'Non-binary'],
-            datasets: [{
-                data: [15, 25, 7],
-                backgroundColor: ['rgba(54, 162, 235, 0.5)', 'rgba(255, 99, 132, 0.5)', 'rgba(75, 192, 192, 0.5)'],
-                borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)', 'rgba(75, 192, 192, 1)'],
-                borderWidth: 1
-            }]
-        };
-
-        const pieChart = new Chart(pieCtx, {
-            type: 'pie',
-            data: pieData,
-            options: { responsive: true }
-        });
+        function showModal(year) {
+            document.getElementById('modalTitle').textContent = `Mental Health Data for ${year}`;
+            document.getElementById('modalText').textContent = mentalHealthDetails[year] || "No data available.";
+            document.getElementById('modal').style.display = 'flex';
+        }
 
         document.getElementById('closeModal').onclick = () => {
             document.getElementById('modal').style.display = 'none';
@@ -185,6 +135,7 @@
 
 </body>
 </html>
+
 
 
 
